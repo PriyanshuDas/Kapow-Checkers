@@ -119,18 +119,18 @@
 */
 
 export class Play extends Phaser.State {
-    preload() {
-        console.log("Preloading Play State");
-        this.spaceShipThrust = GAME_CONST.SPEED.SPACE_SHIP;
-        this.centerPoint = new Phaser.Point(this.world.centerX, this.world.centerY);
-        this.game.physics.arcade.checkCollision.down = false;
-        this.game.physics.arcade.checkCollision.up = false;
-        this.game.physics.arcade.checkCollision.right = false;
-        this.game.physics.arcade.checkCollision.left = false;
-        this.lastTimeStamp = Date.now();
-        this.difficulty = 1000;
-        this.score = 0;
-    }
+    // preload() {
+    //     console.log("Preloading Play State");
+    //     this.spaceShipThrust = GAME_CONST.SPEED.SPACE_SHIP;
+    //     this.centerPoint = new Phaser.Point(this.world.centerX, this.world.centerY);
+    //     this.game.physics.arcade.checkCollision.down = false;
+    //     this.game.physics.arcade.checkCollision.up = false;
+    //     this.game.physics.arcade.checkCollision.right = false;
+    //     this.game.physics.arcade.checkCollision.left = false;
+    //     this.lastTimeStamp = Date.now();
+    //     this.difficulty = 1000;
+    //     this.score = 0;
+    // }
 
     create() {
         this.inputAllowed = false;
@@ -138,6 +138,8 @@ export class Play extends Phaser.State {
         this._setBoardStyle('american');
         this._setupBoardGraph();
         this._initializeTokens();
+        this.turnLimit = 40;
+        this.turnCounter = 0;
 
         //Assumes Both players are human on the same device
         this._createStartState({1: true, 2: true});
@@ -151,79 +153,79 @@ export class Play extends Phaser.State {
         // this.game.stage.addChild(this.meteors);
     }
 
-    update() {
-        if(this.healthMetric > 0) {
-            this.spaceShip.rotation += this.spaceShipThrust;
-            this.meteors.forEach(this.game.physics.arcade.moveToObject,this.game.physics.arcade, false, this.planet, 200);
-            if (Date.now() - this.lastTimeStamp > this.difficulty) {
-                let position;
-                let prob = Math.random();
-                if (prob < 0.25) {
-                    position = new Phaser.Point(Math.random() * 1080, -256);
-                }
-                else if(prob < 0.5) {
-                    position = new Phaser.Point(1080 + 256, 1920 * Math.random());
-                }
-                else if(prob < 0.75) {
-                    position = new Phaser.Point(1080 * Math.random(), 1920 + 256);
-                }
-                else {
-                    position = new Phaser.Point(-256, 1920 * Math.random());
-                }
-                let meteor = new Meteor({
-                    game: this.game,
-                    posX: position.x,
-                    posY: position.y,
-                    label: 'meteor',
-                    angle: position.angle(this.centerPoint, true),
-                    anchorX: 0.5,
-                    anchorY: 0.5
-                });
-                this.meteors.add(meteor);
-                this.lastTimeStamp = Date.now();
-            }
-            this.game.physics.arcade.collide(this.meteors, this.planet, function(planet, meteor) {
-                meteor.destroy();
-                this.healthMetric-=12.5;
-                this._decreaseHealth();
-                window.navigator.vibrate(1000);
-                if(this.healthMetric <= 0 ) {
-                    this._endGame();
-                }
-                this.game.camera.shake(0.005, 500);
-            }, null, this);
-            this.game.physics.arcade.collide(this.meteors, this.projectiles, function(shoot, meteor) {
-                meteor.kill();
-                shoot.kill();
-                this.score+=1;
-                this._changeScore();
-            }, null, this);
-        }
-    }
+    // update() {
+    //     if(this.healthMetric > 0) {
+    //         this.spaceShip.rotation += this.spaceShipThrust;
+    //         this.meteors.forEach(this.game.physics.arcade.moveToObject,this.game.physics.arcade, false, this.planet, 200);
+    //         if (Date.now() - this.lastTimeStamp > this.difficulty) {
+    //             let position;
+    //             let prob = Math.random();
+    //             if (prob < 0.25) {
+    //                 position = new Phaser.Point(Math.random() * 1080, -256);
+    //             }
+    //             else if(prob < 0.5) {
+    //                 position = new Phaser.Point(1080 + 256, 1920 * Math.random());
+    //             }
+    //             else if(prob < 0.75) {
+    //                 position = new Phaser.Point(1080 * Math.random(), 1920 + 256);
+    //             }
+    //             else {
+    //                 position = new Phaser.Point(-256, 1920 * Math.random());
+    //             }
+    //             let meteor = new Meteor({
+    //                 game: this.game,
+    //                 posX: position.x,
+    //                 posY: position.y,
+    //                 label: 'meteor',
+    //                 angle: position.angle(this.centerPoint, true),
+    //                 anchorX: 0.5,
+    //                 anchorY: 0.5
+    //             });
+    //             this.meteors.add(meteor);
+    //             this.lastTimeStamp = Date.now();
+    //         }
+    //         this.game.physics.arcade.collide(this.meteors, this.planet, function(planet, meteor) {
+    //             meteor.destroy();
+    //             this.healthMetric-=12.5;
+    //             this._decreaseHealth();
+    //             window.navigator.vibrate(1000);
+    //             if(this.healthMetric <= 0 ) {
+    //                 this._endGame();
+    //             }
+    //             this.game.camera.shake(0.005, 500);
+    //         }, null, this);
+    //         this.game.physics.arcade.collide(this.meteors, this.projectiles, function(shoot, meteor) {
+    //             meteor.kill();
+    //             shoot.kill();
+    //             this.score+=1;
+    //             this._changeScore();
+    //         }, null, this);
+    //     }
+    // }
+    //
+    // shutdown() {
+    //     for (let i = this.game.stage.children.length - 1; i >= 0; i--) {
+    //         this.game.stage.removeChild(this.game.stage.children[i]);
+    //     }
+    // }
 
-    shutdown() {
-        for (let i = this.game.stage.children.length - 1; i >= 0; i--) {
-            this.game.stage.removeChild(this.game.stage.children[i]);
-        }
-    }
-
-    _createScoreText() {
-        this.scoreText = TextUtil.createText(this.game, {
-            positionX: 100,
-            positionY: 100,
-            message: this.score,
-            align: "center",
-            backgroundColor: "#000000",
-            fill: "#fefefe",
-            font: 'nunito-regular',
-            fontSize: "60px",
-            fontWeight: 800,
-            wordWrapWidth: 355,
-            anchorX: 0.5,
-            anchorY: 0
-        });
-        this.game.stage.addChild(this.scoreText);
-    }
+    // _createScoreText() {
+    //     this.scoreText = TextUtil.createText(this.game, {
+    //         positionX: 100,
+    //         positionY: 100,
+    //         message: this.score,
+    //         align: "center",
+    //         backgroundColor: "#000000",
+    //         fill: "#fefefe",
+    //         font: 'nunito-regular',
+    //         fontSize: "60px",
+    //         fontWeight: 800,
+    //         wordWrapWidth: 355,
+    //         anchorX: 0.5,
+    //         anchorY: 0
+    //     });
+    //     this.game.stage.addChild(this.scoreText);
+    // }
 
     _setBoardStyle(style) {
         this.style = style;
@@ -250,7 +252,7 @@ export class Play extends Phaser.State {
                     curTile.row = i;
                     curTile.col = j;
                     curTile.occupiedBy = null;
-                    this.playableTiles[i][j].push(curTile);
+                    this.playableTiles[i][j] = curTile;
                 }
             }
 
@@ -285,6 +287,7 @@ export class Play extends Phaser.State {
 
     _initializeTokens() {
         this.playerTokens = {};
+        this.capturedTokens = {};
         for (var i = 1; i <= 2; i++)
         {
             this._createPlayerTokens(i);
@@ -294,11 +297,12 @@ export class Play extends Phaser.State {
 
     _createPlayerTokens(player) {
         this.playerTokens[player] = [];
-
+        this.capturedTokens[player] = [];
         for(var i = 0; i < this.initialTokens; i++) {
             var token = {};
             token.isPromoted = false;
             token.player = player;
+            token.id = i;
             this.playerTokens[player].push(token);
         }
     }
@@ -344,7 +348,7 @@ export class Play extends Phaser.State {
         Update Token to notify that it occupies tile (x, y)
      */
     _placeTokenAt(token, x, y) {
-        token.onTile = this.playableTiles[x][y];
+        token.onTile = this.playableTiles[x][y].tile;
         this.playableTiles[x][y].occupiedBy = token;
     }
 
@@ -360,11 +364,8 @@ export class Play extends Phaser.State {
         this._updateStateOnClick(this.lastClickedTile);
     }
 
-    _swapTurns() {
-
-    }
-
     _activatePlayer(player) {
+        this.turnCounter++;
         this.activePlayer = player;
         this.gameState = 'selectToken';
         this.forcedCapture = this._checkForcedCapture();
@@ -381,12 +382,24 @@ export class Play extends Phaser.State {
         var returnValue = false;
 
         //can use for loop here for efficency (not a great increase)
-        this.playerTokens[1].forEach(function(token){
+        this.playerTokens[this.activePlayer].forEach(function(token){
             if(this._hasCaptureMove(token)) {
                 returnValue = true;
             }
         });
         return returnValue;
+    }
+
+    _hasNormalMove(token) {
+        var tile = token.onTile;
+        var that = this;
+        var returnVal = false;
+        tile.adjacentTiles.forEach(function(adjTile) {
+            if(adjTile.tile !== null && that._isValidSingleStep(token, adjTile)) {
+                returnVal = true;
+            }
+        })
+        return returnVal;
     }
 
     _hasCaptureMove(token) {
@@ -395,7 +408,7 @@ export class Play extends Phaser.State {
         var that = this;
         var returnValue = false;
         adjacentTiles.forEach(function(adjTile) {
-           if(adjTile.tile !== null && that._isValidCapture(token.onTile, adjTile.tile)) {
+           if(adjTile.tile !== null && that._canCapture(token.onTile, adjTile.tile)) {
                returnValue = true;
            }
         });
@@ -404,7 +417,7 @@ export class Play extends Phaser.State {
 
     //Checks whether token on tile1 can valid capture token on tile2
 
-    _isValidCapture(tile1, tile2) {
+    _canCapture(tile1, tile2) {
         var dx = tile2.row - tile1.row;
         var dy = tile2.col - tile1.col;
         var token1 = tile1.occupiedBy;
@@ -415,7 +428,7 @@ export class Play extends Phaser.State {
 
         if(!token1.isPromoted && token1.player === 1 && dx < 0) return false;
         if(!token1.isPromoted && token1.player === 2 && dx > 0) return false;
-
+        if(Math.abs(dx) > 1 && Math.abs(dy) > 1) return false;
 
         var newX = tile1.row + 2*dx;
         var newY = tile1.col + 2*dy;
@@ -428,41 +441,115 @@ export class Play extends Phaser.State {
 
     }
 
+    _isValidSingleStep(token, tile) {
+        var tile1 = token.onTile;
+        var tile2 = tile;
+        var dx = tile2.row - tile1.row;
+        var dy = tile2.col - tile1.col;
+        var token1 = tile1.occupiedBy;
+        var token2 = tile2.occupiedBy;
+
+        if(token2 !== null) return false;
+
+        if(!token1.isPromoted && token1.player === 1 && dx < 0) return false;
+        if(!token1.isPromoted && token1.player === 2 && dx > 0) return false;
+
+        return (Math.abs(dx) === 1 && Math.abs(dy) === 1);
+    }
+
     _isValidMove(token, tile) {
-
+        if(this._isValidCaptureMove(token, tile))    return true;
+        if(!this.forcedCapture && this._isValidSingleStep(token, tile)) return true;
+        return false;
     }
 
+    _isValidCaptureMove(token, tile) {
+        var tokenX = token.onTile.row, tokenY = token.onTile.col;
+        var tileX = tile.row, tileY = tile.col;
+
+        var dx = tileX - tokenX, dy = tileY - tokenY;
+
+        if(Math.abs(dx) !== 2 && Math.abs(dy) !== 2) return false;
+
+        var newdx = dx/2, newdy = dy/2;
+
+        return this._canCapture(token.onTile, this.playableTiles[tokenX+newdx][tokenY+newdy].tile);
+    }
+
+    _getTokenForCaptureMove(token, tile) {
+        var tokenX = token.onTile.row, tokenY = token.onTile.col;
+        var tileX = tile.row, tileY = tile.col;
+
+        var dx = tileX - tokenX, dy = tileY - tokenY;
+
+        if(Math.abs(dx) !== 2 && Math.abs(dy) !== 2) return false;
+
+        var newdx = dx/2, newdy = dy/2;
+        return this.playableTiles[tokenX+newdx][tokenY+newdy].occupiedBy;
+    }
+
+    //Done
+    canPromote(token) {
+        if(token.isPromoted) return false;
+
+        if(token.player === 1 && token.onTile.row === this.rows) return true;
+    }
+
+    //Done
+    promoteToken(token) {
+        token.isPromoted = true;
+    }
+
+
+    //Done
     _makeMove(token, tile) {
-
+        if(this._isValidCaptureMove(token, tile)) {
+                this._captureToken(token, this._getTokenForCaptureMove(token, tile));
+        }
+        token.onTile = tile;
+        tile.occupiedBy = token;
+        if(this.canPromote(token)) this.promoteToken(token);
     }
 
+    //Done
     _captureToken(token1, token2) {
-
+        this.turnCounter = 0;
+        var occupiedTile = token2.occupiedBy;
+        occupiedTile.occupiedBy = null;
+        token2.onTile = null;
+        this.capturedTokens[token2.player].push(token2);
+        var index = this.playerTokens[token2.player].indexOf(token2);
+        this.playerTokens[token2.player].splice(index, 1);
     }
 
+    //Done
     _isValidSelect(tile) {
         return (tile.occupiedBy === this.activePlayer);
     }
 
+    //Done
     _selectActiveToken(token) {
         this.activeToken = token;
         this._highlightAvailableMoves(token);
         this._highlightTile(token.onTile, true, 'selected');
     }
 
+    //Done
     _deselectActiveToken(token) {
         this.activeToken = null;
         this._unHighlightAvailableMoves(token);
         this._highlightTile(token.onTile, false);
     }
+
+    //Done, Review
     _highlightTile(tile, type) {
         //ToDo: Sahil
     }
-
+    //Done, Review
     _unHighlightTile(tile) {
         //ToDo: Sahil
     }
-
+    //Done, Review
     _highlightTiles(arrayOfTiles, activate, type) {
         var that = this;
         arrayOfTiles.forEach(function(tile) {
@@ -470,12 +557,12 @@ export class Play extends Phaser.State {
             else         that._unHighlightTile(tile);
         })
     }
-
+    //Done, Review
     _unHighlightAvailableMoves(token) {
         this._highlightTiles(this.availableMoves, false);
         this.availableMoves = null;
     }
-
+    //Done, Review
     _highlightAvailableMoves(token) {
         var availableTiles = this._getAvailableMoveTiles(token);
         this.availableMoves = availableTiles;
@@ -483,11 +570,35 @@ export class Play extends Phaser.State {
 
     }
 
-    //ToDo: Priyanshu
+    //Done
     _getAvailableMoveTiles(token) {
+        var dx = 1, dy = 1;
+        if(this.forcedCapture) {
+            dx = 2;
+            dy = 2;
+        }
+        var setOfTiles = [];
 
+        var DX = [-dx, -dx, dx, dx];
+        var DY = [-dy, dy, -dy, dy];
+        var x = token.onTile.row, y = token.onTile.col;
+
+        for(var i = 0; i < 4; i++) {
+            var newX = x+DX[i], newY = y+DY[i];
+            var newTile = null;
+            if(typeof this.playableTiles[newX][newY] !== 'undefined')
+                newTile = this.playableTiles[newX][newY];
+
+            if(this._isValidMove(token, newTile)) {
+                setOfTiles.push(newTile);
+            }
+        }
+
+        return setOfTiles;
     }
 
+
+    //Done Review
     _setGameState(state) {
         this.gameState = state;
         switch(state) {
@@ -497,9 +608,15 @@ export class Play extends Phaser.State {
                 break;
             case 'moveToken':
                 break;
+            case 'endTurn':
+                this._endTurn();
+                break;
+            default:
+                console.log('Invalid State!');
         }
     }
 
+    //Done, Review
     _updateStateOnClick(clickedTile) {
         switch(this.gameState) {
             case 'selectToken':
@@ -527,7 +644,7 @@ export class Play extends Phaser.State {
                 if(this._isValidMove(this.activeToken, clickedTile)) {
                     var wasPromoted = JSON.parse(JSON.stringify(this.activeToken.isPromoted));
                     this._makeMove(this.activeToken, clickedTile);
-                    if(this.forcedCapture && this._canMakeAnotherJump(this.activeToken) && (wasPromoted === this.activeToken.isPromoted))
+                    if(this.forcedCapture && this._hasCaptureMove(this.activeToken) && (wasPromoted === this.activeToken.isPromoted))
                         this._setGameState('moveTokenAgain');
                     else
                         this._setGameState('endTurn');
@@ -535,33 +652,89 @@ export class Play extends Phaser.State {
                 }
                 break;
             default:
-                console.log('UnknownState!');
+                console.log('No Action on State : ', this.gameState);
         }
     }
 
-    _endGame() {
+    _isGameOver() {
+        if(this.turnCounter === this.turnLimit) return true;
+        if(this.activePlayer === 1) {
+            if(this._hasNoMove(2))
+                return true;
+
+        }
+        else {
+            if(this.activePlayer === 2)
+                if(this._hasNoMove(1))
+                    return true;
+        }
+        return false;
+    }
+
+    _hasAnyMove(token) {
+        return (this._hasCaptureMove(token) || this._hasNormalMove(token));
+    }
+
+    _hasNoMove(player) {
+        var returnVal = true;
+        this.playerTokens[player].forEach(function(token) {
+            if(this._hasAnyMove(token)) {
+               returnVal = false;
+            }
+        })
+        return returnVal;
+    }
+
+    _gameOver() {
+        if(this.turnCounter === this.turnLimit)
+            this._endGame('draw');
+        if(this.activePlayer === 1) {
+            if(this._hasNoMove(2))
+                return this._endGame('over', 1);
+
+        }
+        else {
+            if(this.activePlayer === 2)
+                if(this._hasNoMove(1))
+                    return this._endGame('over', 2);
+        }
+        return false;
+    }
+
+    _endTurn() {
+        if(this._isGameOver())
+            this._gameOver();
+        else {
+            if (this.activePlayer === 1)
+                this._activatePlayer(2);
+            else
+                this._activatePlayer(1);
+        }
+    }
+
+    _endGame(state, winner) {
         // kapow.invokeRPC('postScore', {"score": this.score}, function() {
         //     console.log("Success Posting Score");
         // }, function(error) {
         //     console.log("Failure Posting score", error);
         // });
-        this.gameEndText = TextUtil.createText(this.game, {
-            positionX: this.world.centerX,
-            positionY: 560,
-            message: "Game Over",
-            align: "center",
-            backgroundColor: "#000000",
-            fill: "#fefefe",
-            font: 'nunito-regular',
-            fontSize: "80px",
-            fontWeight: 800,
-            wordWrapWidth: 355,
-            anchorX: 0.5,
-            anchorY: 0
-        });
-        this.game.stage.addChild(this.gameEndText);
-        // this._createPlayButton();
-        this._drawScoreboard();
+        // this.gameEndText = TextUtil.createText(this.game, {
+        //     positionX: this.world.centerX,
+        //     positionY: 560,
+        //     message: "Game Over",
+        //     align: "center",
+        //     backgroundColor: "#000000",
+        //     fill: "#fefefe",
+        //     font: 'nunito-regular',
+        //     fontSize: "80px",
+        //     fontWeight: 800,
+        //     wordWrapWidth: 355,
+        //     anchorX: 0.5,
+        //     anchorY: 0
+        // });
+        // this.game.stage.addChild(this.gameEndText);
+        // // this._createPlayButton();
+        // this._drawScoreboard();
     }
 
     _createPlayButton() {
@@ -582,11 +755,11 @@ export class Play extends Phaser.State {
         this.scoreboard.anchor.setTo(0.5, 0);
         this.game.stage.addChild(this.scoreboard);
     }
-
-    _renderScoreboard() {
-        kapow.boards.displayScoreboard({
-            "metric":"score",
-            "interval":"daily"
-        });
-    }
+    //
+    // _renderScoreboard() {
+    //     kapow.boards.displayScoreboard({
+    //         "metric":"score",
+    //         "interval":"daily"
+    //     });
+    // }
 }

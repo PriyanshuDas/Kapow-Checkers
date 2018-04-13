@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8c2cbd5f-e47d-49af-881a-0bfe54b856de" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/src/game.js" afterPath="$PROJECT_DIR$/src/game.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -20,24 +19,25 @@
       <file leaf-file-name="game.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1540">
-              <caret line="111" column="20" lean-forward="false" selection-start-line="111" selection-start-column="20" selection-end-line="111" selection-end-column="20" />
+            <state relative-caret-position="340">
+              <caret line="135" column="32" lean-forward="false" selection-start-line="135" selection-start-column="32" selection-end-line="135" selection-end-column="32" />
               <folding>
-                <element signature="n#!!block;n#preload#0;n#Play#0" expanded="false" />
-                <element signature="n#!!block;n#update#0;n#Play#0" expanded="false" />
-                <element signature="n#!!block;n#shutdown#0;n#Play#0" expanded="false" />
-                <element signature="n#!!block;n#_createScoreText#0;n#Play#0" expanded="false" />
+                <element signature="n#!!doc" expanded="true" />
+                <element signature="e#421#4915#0" expanded="false" />
+                <element signature="e#4962#4976#0" expanded="false" />
+                <element signature="e#5928#5955#0" expanded="false" />
+                <element signature="e#6302#6315#0" expanded="false" />
+                <element signature="e#8721#8744#0" expanded="false" />
                 <element signature="n#!!block;n#_setBoardStyle#0;n#Play#0" expanded="false" />
                 <element signature="n#!!block;n#_setupBoardGraph#0;n#Play#0" expanded="false" />
-                <element signature="n#!!block;n#_initializeTokens#0;n#Play#0" expanded="false" />
-                <element signature="n#!!block;n#_createPlayerTokens#0;n#Play#0" expanded="false" />
                 <element signature="n#!!block;n#_placePlayerTokens#0;n#Play#0" expanded="false" />
                 <element signature="n#!!block;n#_placeTokenAt#0;n#Play#0" expanded="false" />
-                <element signature="n#!!block;n#_activatePlayer#0;n#Play#0" expanded="false" />
                 <element signature="n#!!block;n#_enableInput#0;n#Play#0" expanded="false" />
-                <element signature="n#!!block;n#_checkForcedCapture#0;n#Play#0" expanded="false" />
-                <element signature="n#!!block;n#_isValidCapture#0;n#Play#0" expanded="false" />
-                <element signature="n#!!block;n#_captureToken#0;n#Play#0" expanded="false" />
+                <element signature="n#!!block;n#_isValidCaptureMove#0;n#Play#0" expanded="false" />
+                <element signature="n#!!block;n#_getTokenForCaptureMove#0;n#Play#0" expanded="false" />
+                <element signature="n#!!block;n#canPromote#0;n#Play#0" expanded="false" />
+                <element signature="n#!!block;n#promoteToken#0;n#Play#0" expanded="false" />
+                <element signature="n#!!block;n#_makeMove#0;n#Play#0" expanded="false" />
                 <element signature="n#!!block;n#_isValidSelect#0;n#Play#0" expanded="false" />
                 <element signature="n#!!block;n#_selectActiveToken#0;n#Play#0" expanded="false" />
                 <element signature="n#!!block;n#_deselectActiveToken#0;n#Play#0" expanded="false" />
@@ -45,13 +45,8 @@
                 <element signature="n#!!block;n#_unHighlightTile#0;n#Play#0" expanded="false" />
                 <element signature="n#!!block;n#_highlightTiles#0;n#Play#0" expanded="false" />
                 <element signature="n#!!block;n#_unHighlightAvailableMoves#0;n#Play#0" expanded="false" />
-                <element signature="n#!!block;n#_highlightAvailableMoves#0;n#Play#0" expanded="false" />
-                <element signature="n#!!block;n#_getAvailableMoveTiles#0;n#Play#0" expanded="false" />
-                <element signature="n#!!block;n#_setGameState#0;n#Play#0" expanded="false" />
-                <element signature="n#!!block;n#_endGame#0;n#Play#0" expanded="false" />
                 <element signature="n#!!block;n#_createPlayButton#0;n#Play#0" expanded="false" />
                 <element signature="n#!!block;n#_drawScoreboard#0;n#Play#0" expanded="false" />
-                <element signature="n#!!block;n#_renderScoreboard#0;n#Play#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -115,7 +110,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>playableTiles</find>
       <find>set</find>
       <find>%2</find>
       <find>currentState</find>
@@ -130,6 +124,19 @@
       <find>gameState</find>
       <find>isValid</find>
       <find>_isValidMove</find>
+      <find>this.forcedCapture</find>
+      <find>playableTiles</find>
+      <find>_isValidCapture</find>
+      <find>playerTokens</find>
+      <find>player === 1</find>
+      <find>promote(to</find>
+      <find>this.rows</find>
+      <find>_getAvailableMoveTiles</find>
+      <find>capture</find>
+      <find>all</find>
+      <find>valid</find>
+      <find>this.player</find>
+      <find>_hasCapt</find>
     </findStrings>
     <replaceStrings>
       <replace>this.playableTiles</replace>
@@ -158,8 +165,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1912" />
-    <option name="y" value="-443" />
+    <option name="x" value="2298" />
+    <option name="y" value="245" />
     <option name="width" value="1080" />
     <option name="height" value="728" />
   </component>
@@ -227,12 +234,12 @@
       <option name="presentableId" value="Default" />
       <updated>1523545160279</updated>
       <workItem from="1523545161512" duration="3630000" />
-      <workItem from="1523592894352" duration="14650000" />
+      <workItem from="1523592894352" duration="27113000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18280000" />
+    <option name="totallyTimeSpent" value="30743000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-443" width="1096" height="1936" extended-state="6" />
@@ -242,6 +249,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -253,7 +261,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -284,7 +291,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="8" />
+      <option name="time" value="23" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -294,21 +301,22 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="n#!!block;n#preload#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#update#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#shutdown#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#_createScoreText#0;n#Play#0" expanded="false" />
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#421#4915#0" expanded="false" />
+            <element signature="e#4962#4976#0" expanded="false" />
+            <element signature="e#5928#5955#0" expanded="false" />
+            <element signature="e#6302#6315#0" expanded="false" />
+            <element signature="e#8721#8744#0" expanded="false" />
             <element signature="n#!!block;n#_setBoardStyle#0;n#Play#0" expanded="false" />
             <element signature="n#!!block;n#_setupBoardGraph#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#_initializeTokens#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#_createPlayerTokens#0;n#Play#0" expanded="false" />
             <element signature="n#!!block;n#_placePlayerTokens#0;n#Play#0" expanded="false" />
             <element signature="n#!!block;n#_placeTokenAt#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#_activatePlayer#0;n#Play#0" expanded="false" />
             <element signature="n#!!block;n#_enableInput#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#_checkForcedCapture#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#_isValidCapture#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#_captureToken#0;n#Play#0" expanded="false" />
+            <element signature="n#!!block;n#_isValidCaptureMove#0;n#Play#0" expanded="false" />
+            <element signature="n#!!block;n#_getTokenForCaptureMove#0;n#Play#0" expanded="false" />
+            <element signature="n#!!block;n#canPromote#0;n#Play#0" expanded="false" />
+            <element signature="n#!!block;n#promoteToken#0;n#Play#0" expanded="false" />
+            <element signature="n#!!block;n#_makeMove#0;n#Play#0" expanded="false" />
             <element signature="n#!!block;n#_isValidSelect#0;n#Play#0" expanded="false" />
             <element signature="n#!!block;n#_selectActiveToken#0;n#Play#0" expanded="false" />
             <element signature="n#!!block;n#_deselectActiveToken#0;n#Play#0" expanded="false" />
@@ -316,13 +324,8 @@
             <element signature="n#!!block;n#_unHighlightTile#0;n#Play#0" expanded="false" />
             <element signature="n#!!block;n#_highlightTiles#0;n#Play#0" expanded="false" />
             <element signature="n#!!block;n#_unHighlightAvailableMoves#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#_highlightAvailableMoves#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#_getAvailableMoveTiles#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#_setGameState#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#_endGame#0;n#Play#0" expanded="false" />
             <element signature="n#!!block;n#_createPlayButton#0;n#Play#0" expanded="false" />
             <element signature="n#!!block;n#_drawScoreboard#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#_renderScoreboard#0;n#Play#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -411,24 +414,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1540">
-          <caret line="111" column="20" lean-forward="false" selection-start-line="111" selection-start-column="20" selection-end-line="111" selection-end-column="20" />
+        <state relative-caret-position="340">
+          <caret line="135" column="32" lean-forward="false" selection-start-line="135" selection-start-column="32" selection-end-line="135" selection-end-column="32" />
           <folding>
-            <element signature="n#!!block;n#preload#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#update#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#shutdown#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#_createScoreText#0;n#Play#0" expanded="false" />
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#421#4915#0" expanded="false" />
+            <element signature="e#4962#4976#0" expanded="false" />
+            <element signature="e#5928#5955#0" expanded="false" />
+            <element signature="e#6302#6315#0" expanded="false" />
+            <element signature="e#8721#8744#0" expanded="false" />
             <element signature="n#!!block;n#_setBoardStyle#0;n#Play#0" expanded="false" />
             <element signature="n#!!block;n#_setupBoardGraph#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#_initializeTokens#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#_createPlayerTokens#0;n#Play#0" expanded="false" />
             <element signature="n#!!block;n#_placePlayerTokens#0;n#Play#0" expanded="false" />
             <element signature="n#!!block;n#_placeTokenAt#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#_activatePlayer#0;n#Play#0" expanded="false" />
             <element signature="n#!!block;n#_enableInput#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#_checkForcedCapture#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#_isValidCapture#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#_captureToken#0;n#Play#0" expanded="false" />
+            <element signature="n#!!block;n#_isValidCaptureMove#0;n#Play#0" expanded="false" />
+            <element signature="n#!!block;n#_getTokenForCaptureMove#0;n#Play#0" expanded="false" />
+            <element signature="n#!!block;n#canPromote#0;n#Play#0" expanded="false" />
+            <element signature="n#!!block;n#promoteToken#0;n#Play#0" expanded="false" />
+            <element signature="n#!!block;n#_makeMove#0;n#Play#0" expanded="false" />
             <element signature="n#!!block;n#_isValidSelect#0;n#Play#0" expanded="false" />
             <element signature="n#!!block;n#_selectActiveToken#0;n#Play#0" expanded="false" />
             <element signature="n#!!block;n#_deselectActiveToken#0;n#Play#0" expanded="false" />
@@ -436,13 +440,8 @@
             <element signature="n#!!block;n#_unHighlightTile#0;n#Play#0" expanded="false" />
             <element signature="n#!!block;n#_highlightTiles#0;n#Play#0" expanded="false" />
             <element signature="n#!!block;n#_unHighlightAvailableMoves#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#_highlightAvailableMoves#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#_getAvailableMoveTiles#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#_setGameState#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#_endGame#0;n#Play#0" expanded="false" />
             <element signature="n#!!block;n#_createPlayButton#0;n#Play#0" expanded="false" />
             <element signature="n#!!block;n#_drawScoreboard#0;n#Play#0" expanded="false" />
-            <element signature="n#!!block;n#_renderScoreboard#0;n#Play#0" expanded="false" />
           </folding>
         </state>
       </provider>
