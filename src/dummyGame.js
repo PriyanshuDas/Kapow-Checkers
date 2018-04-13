@@ -117,8 +117,8 @@
          3. TokenAnimations(idle, capture, defeated)
          4.
 */
-
-export class Play extends Phaser.State {
+//
+// export class Play extends Phaser.State {
     // preload() {
     //     console.log("Preloading Play State");
     //     this.spaceShipThrust = GAME_CONST.SPEED.SPACE_SHIP;
@@ -132,7 +132,7 @@ export class Play extends Phaser.State {
     //     this.score = 0;
     // }
 
-    create() {
+    function create() {
         this.inputAllowed = false;
         this.lastClickedTile = null;
         this._setBoardStyle('american');
@@ -227,7 +227,7 @@ export class Play extends Phaser.State {
     //     this.game.stage.addChild(this.scoreText);
     // }
 
-    _setBoardStyle(style) {
+function _setBoardStyle(style) {
         this.style = style;
         if(this.style === 'international') {
             this.rows = 10;
@@ -242,14 +242,14 @@ export class Play extends Phaser.State {
         }
     }
 
-    _setPlayableTile(x, y, value) {
+function setPlayableTile(x, y, value) {
         if(typeof this.playableTiles[x] === 'undefined') {
             this.playableTiles[x] = {};
         }
         this.playableTiles[x][y] = value;
     }
 
-    _setupBoardGraph() {
+function _setupBoardGraph() {
         this.playableTiles = {};
         var i = 1, j = 1;
         for(i = 1; i <= this.rows; i++)
@@ -259,7 +259,7 @@ export class Play extends Phaser.State {
                     curTile.row = i;
                     curTile.col = j;
                     curTile.occupiedBy = null;
-                    this._setPlayableTile(i, j, curTile);
+                    this.setPlayableTile(i, j, curTile);
                     // this.playableTiles[i][j] = curTile;
                 }
             }
@@ -293,7 +293,7 @@ export class Play extends Phaser.State {
 
     }
 
-    _initializeTokens() {
+function _initializeTokens() {
         this.playerTokens = {};
         this.capturedTokens = {};
         for (var i = 1; i <= 2; i++)
@@ -303,7 +303,7 @@ export class Play extends Phaser.State {
         }
     }
 
-    _createPlayerTokens(player) {
+function _createPlayerTokens(player) {
         this.playerTokens[player] = [];
         this.capturedTokens[player] = [];
         for(var i = 0; i < this.initialTokens; i++) {
@@ -318,7 +318,7 @@ export class Play extends Phaser.State {
     /*
         Place Player Tokens. Keep placing tokens from the first (row, col) till all placed
      */
-    _placePlayerTokens(player) {
+function _placePlayerTokens(player) {
         var rowCount = 0;
         var curX = 1, curY = 2;
         if(this.style === 'american')
@@ -355,24 +355,24 @@ export class Play extends Phaser.State {
         Update Tile at (x, y) to know what occupies it,
         Update Token to notify that it occupies tile (x, y)
      */
-    _placeTokenAt(token, x, y) {
+function _placeTokenAt(token, x, y) {
         token.onTile = this.playableTiles[x][y];
         this.playableTiles[x][y].occupiedBy = token;
     }
 
-    _createStartState(humans){
+function _createStartState(humans){
         this.isHuman = humans;
         this._activatePlayer(1);
     }
 
     //ToDo: Sahil and Priyanshu
-    _registerInput(x, y) {
+function _registerInput(x, y) {
         if(!this.inputAllowed)  return;
         this.lastClickedTile = this.playableTiles[x][y];
         this._updateStateOnClick(this.lastClickedTile);
     }
 
-    _activatePlayer(player) {
+function _activatePlayer(player) {
         this.turnCounter++;
         this.activePlayer = player;
         this.gameState = 'selectToken';
@@ -380,13 +380,13 @@ export class Play extends Phaser.State {
         this._enableInput(player);
     }
 
-    _enableInput(player) {
+function _enableInput(player) {
         if(this.isHuman[player]) {
             this.inputAllowed = true;
         }
     }
 
-    _checkForcedCapture() {
+function _checkForcedCapture() {
         var returnValue = false;
 
         //can use for loop here for efficency (not a great increase)
@@ -398,7 +398,7 @@ export class Play extends Phaser.State {
         return returnValue;
     }
 
-    _hasNormalMove(token) {
+function _hasNormalMove(token) {
         var tile = token.onTile;
         var that = this;
         var returnVal = false;
@@ -410,22 +410,22 @@ export class Play extends Phaser.State {
         return returnVal;
     }
 
-    _hasCaptureMove(token) {
+function _hasCaptureMove(token) {
         var curTile = token.onTile;
         var adjacentTiles = curTile.adjacentTiles;
         var that = this;
         var returnValue = false;
         adjacentTiles.forEach(function(adjTile) {
-           if(adjTile.tile !== null && that._canCapture(token.onTile, adjTile.tile)) {
-               returnValue = true;
-           }
+            if(adjTile.tile !== null && that._canCapture(token.onTile, adjTile.tile)) {
+                returnValue = true;
+            }
         });
         return returnValue;
     }
 
     //Checks whether token on tile1 can valid capture token on tile2
 
-    _canCapture(tile1, tile2) {
+function _canCapture(tile1, tile2) {
         var dx = tile2.row - tile1.row;
         var dy = tile2.col - tile1.col;
         var token1 = tile1.occupiedBy;
@@ -449,7 +449,7 @@ export class Play extends Phaser.State {
 
     }
 
-    _isValidSingleStep(token, tile) {
+function _isValidSingleStep(token, tile) {
         var tile1 = token.onTile;
         var tile2 = tile;
         var dx = tile2.row - tile1.row;
@@ -465,13 +465,13 @@ export class Play extends Phaser.State {
         return (Math.abs(dx) === 1 && Math.abs(dy) === 1);
     }
 
-    _isValidMove(token, tile) {
+function _isValidMove(token, tile) {
         if(this._isValidCaptureMove(token, tile))    return true;
         if(!this.forcedCapture && this._isValidSingleStep(token, tile)) return true;
         return false;
     }
 
-    _isValidCaptureMove(token, tile) {
+function _isValidCaptureMove(token, tile) {
         var tokenX = token.onTile.row, tokenY = token.onTile.col;
         var tileX = tile.row, tileY = tile.col;
 
@@ -484,7 +484,7 @@ export class Play extends Phaser.State {
         return this._canCapture(token.onTile, this.playableTiles[tokenX+newdx][tokenY+newdy].tile);
     }
 
-    _getTokenForCaptureMove(token, tile) {
+function _getTokenForCaptureMove(token, tile) {
         var tokenX = token.onTile.row, tokenY = token.onTile.col;
         var tileX = tile.row, tileY = tile.col;
 
@@ -497,22 +497,22 @@ export class Play extends Phaser.State {
     }
 
     //Done
-    canPromote(token) {
+function canPromote(token) {
         if(token.isPromoted) return false;
 
         if(token.player === 1 && token.onTile.row === this.rows) return true;
     }
 
     //Done
-    promoteToken(token) {
+function promoteToken(token) {
         token.isPromoted = true;
     }
 
 
     //Done
-    _makeMove(token, tile) {
+function _makeMove(token, tile) {
         if(this._isValidCaptureMove(token, tile)) {
-                this._captureToken(token, this._getTokenForCaptureMove(token, tile));
+            this._captureToken(token, this._getTokenForCaptureMove(token, tile));
         }
         token.onTile = tile;
         tile.occupiedBy = token;
@@ -520,7 +520,7 @@ export class Play extends Phaser.State {
     }
 
     //Done
-    _captureToken(token1, token2) {
+function _captureToken(token1, token2) {
         this.turnCounter = 0;
         var occupiedTile = token2.occupiedBy;
         occupiedTile.occupiedBy = null;
@@ -531,34 +531,34 @@ export class Play extends Phaser.State {
     }
 
     //Done
-    _isValidSelect(tile) {
+function _isValidSelect(tile) {
         return (tile.occupiedBy.player === this.activePlayer);
     }
 
     //Done
-    _selectActiveToken(token) {
+function _selectActiveToken(token) {
         this.activeToken = token;
         this._highlightAvailableMoves(token);
         this._highlightTile(token.onTile, true, 'selected');
     }
 
     //Done
-    _deselectActiveToken(token) {
+function _deselectActiveToken(token) {
         this.activeToken = null;
         this._unHighlightAvailableMoves(token);
         this._highlightTile(token.onTile, false);
     }
 
     //Done, Review
-    _highlightTile(tile, type) {
+function _highlightTile(tile, type) {
         //ToDo: Sahil
     }
     //Done, Review
-    _unHighlightTile(tile) {
+function _unHighlightTile(tile) {
         //ToDo: Sahil
     }
     //Done, Review
-    _highlightTiles(arrayOfTiles, activate, type) {
+function _highlightTiles(arrayOfTiles, activate, type) {
         var that = this;
         arrayOfTiles.forEach(function(tile) {
             if(activate) that._highlightTile(tile, type);
@@ -566,12 +566,12 @@ export class Play extends Phaser.State {
         })
     }
     //Done, Review
-    _unHighlightAvailableMoves(token) {
+function _unHighlightAvailableMoves(token) {
         this._highlightTiles(this.availableMoves, false);
         this.availableMoves = null;
     }
     //Done, Review
-    _highlightAvailableMoves(token) {
+function _highlightAvailableMoves(token) {
         var availableTiles = this._getAvailableMoveTiles(token);
         this.availableMoves = availableTiles;
         this._highlightTiles(availableTiles, true, 'canMove');
@@ -579,7 +579,7 @@ export class Play extends Phaser.State {
     }
 
     //Done
-    _getAvailableMoveTiles(token) {
+function _getAvailableMoveTiles(token) {
         var dx = 1, dy = 1;
         if(this.forcedCapture) {
             dx = 2;
@@ -607,7 +607,7 @@ export class Play extends Phaser.State {
 
 
     //Done Review
-    _setGameState(state) {
+function _setGameState(state) {
         this.gameState = state;
         switch(state) {
             case 'selectToken':
@@ -625,7 +625,7 @@ export class Play extends Phaser.State {
     }
 
     //Done, Review
-    _updateStateOnClick(clickedTile) {
+function _updateStateOnClick(clickedTile) {
         switch(this.gameState) {
             case 'selectToken':
                 if(this._isValidSelect(clickedTile)) {
@@ -664,7 +664,7 @@ export class Play extends Phaser.State {
         }
     }
 
-    _isGameOver() {
+function _isGameOver() {
         if(this.turnCounter === this.turnLimit) return true;
         if(this.activePlayer === 1) {
             if(this._hasNoMove(2))
@@ -679,21 +679,21 @@ export class Play extends Phaser.State {
         return false;
     }
 
-    _hasAnyMove(token) {
+function _hasAnyMove(token) {
         return (this._hasCaptureMove(token) || this._hasNormalMove(token));
     }
 
-    _hasNoMove(player) {
+function _hasNoMove(player) {
         var returnVal = true;
         this.playerTokens[player].forEach(function(token) {
             if(this._hasAnyMove(token)) {
-               returnVal = false;
+                returnVal = false;
             }
         })
         return returnVal;
     }
 
-    _gameOver() {
+function _gameOver() {
         if(this.turnCounter === this.turnLimit)
             this._endGame('draw');
         if(this.activePlayer === 1) {
@@ -709,7 +709,7 @@ export class Play extends Phaser.State {
         return false;
     }
 
-    _endTurn() {
+function _endTurn() {
         if(this._isGameOver())
             this._gameOver();
         else {
@@ -720,7 +720,7 @@ export class Play extends Phaser.State {
         }
     }
 
-    _endGame(state, winner) {
+function _endGame(state, winner) {
         // kapow.invokeRPC('postScore', {"score": this.score}, function() {
         //     console.log("Success Posting Score");
         // }, function(error) {
@@ -745,7 +745,7 @@ export class Play extends Phaser.State {
         // this._drawScoreboard();
     }
 
-    _createPlayButton() {
+function _createPlayButton() {
         this.playButtton = new PlayButton({
             game: this.game,
             posX: this.world.centerX,
@@ -758,7 +758,7 @@ export class Play extends Phaser.State {
         this.game.stage.addChild(this.playButtton);
     }
 
-    _drawScoreboard() {
+function _drawScoreboard() {
         this.scoreboard = this.game.add.button(this.game.world.centerX, 1800, "scoreboard", this._renderScoreboard, this);
         this.scoreboard.anchor.setTo(0.5, 0);
         this.game.stage.addChild(this.scoreboard);
@@ -770,4 +770,28 @@ export class Play extends Phaser.State {
     //         "interval":"daily"
     //     });
     // }
+// }
+
+var board = document.getElementsByClassName('board')[0];
+board.innerHTML = 'Checkers!';
+
+var table = document.createElement('table');
+create();
+
+for(var i = 0; i < 8; i++) {
+    var tr = document.createElement('tr');
+    for(var j = 0; j < 8; j++) {
+        (function () {
+            var x = i+1;
+            var y = j+1;
+            var td = document.createElement('td');
+            tr.appendChild(td);
+            td.innerHTML = '(' + (i + 1) + ',' + (j + 1) + ')';
+            td.addEventListener('click', function () {
+                _registerInput(x, y);
+            })
+        }());
+    }
+    table.appendChild(tr);
 }
+board.appendChild(table);
