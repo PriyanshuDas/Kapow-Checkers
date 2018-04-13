@@ -1,11 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Checkers Board</title>
-</head>
-<body>
-    <div class = 'board'></div>
-    <script src="src/dummyGame.js"></script>
-</body>
+<html>
+    <head>
+        <title>
+            Checkers
+        </title>
+        <link href="styles/style.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <div id="fastest-fifty-first"></div>
+        <p id="helvetica">abcd</p>
+        <p id="helveticaLight">abcd</p>
+    </body>
+    <!-- Load game js files -->
+    <script src="js/phaser.min.js"></script>
+    <script src="js/constants.js"></script>
+    <script src="js/game.js"></script>
+
+    <script src="js/states/boot.js"></script>
+    <script src="js/states/preload.js"></script>
+    <script src="js/states/menu.js"></script>
+    <script src="js/states/play.js"></script>
+    <script src="js/states/gameOver.js"></script>
+
+    <script src="js/main.js"></script>
 </html>
