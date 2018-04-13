@@ -45,7 +45,7 @@ play.prototype = {
 		for (var row = 0; row < CONSTANTS.BOARD.ROWS; row++) {
 			var posLeft = CONSTANTS.BOARD.OFFSET.LEFT;
 			for (var col = 0; col < CONSTANTS.BOARD.COLS; col++) {
-				if((row+col)%2===0) {
+				if((row+col)%2===1) {
                     var tile = this.game.add.image(posLeft, posTop, "cell");
                     this.playableTiles[row+1][col+1].image = tile;
                     cnt++;
@@ -63,6 +63,10 @@ play.prototype = {
                     	checkerPiece.inputEnabled = true;
                     	checkerPiece.events.onInputDown.add(this.onPieceSelected, this);
 					}
+					else {
+                        tile.inputEnabled = true;
+                        tile.events.onInputDown.add(this.onPieceSelected, this);
+                    }
                 }
 				// this.addCellOnBoard(posLeft, posTop, this.prettify(this.firstFace[id], 2));
 				 posLeft += CONSTANTS.BOARD.CELL.WIDTH + CONSTANTS.BOARD.CELL_SPACING;
@@ -80,7 +84,13 @@ play.prototype = {
 		y = (left-60)/120 + 1;
 		x = (top-480)/120 + 1;
 		console.log(x, y);
+		this._registerInput(x, y);
+
 	},
+
+    movePiece: function(e) {
+
+    },
 
 	// Todo : should be refactored to some kind of util file
 
@@ -107,6 +117,8 @@ play.prototype = {
         this.playableTiles[x][y] = value;
     },
 
+        // this.playableTiles[x][y] stores an object defining tile. {row, col, occupiedBy, adjacentTiles{direction,playableTiles[i][j]} }.
+
     _setupBoardGraph: function() {
         this.playableTiles = {};
         var i = 1, j = 1;
@@ -130,20 +142,18 @@ play.prototype = {
                     var dx = [-1, -1, +1, +1];
                     var dy = [-1, +1, -1, +1];
 
-                    for(var x = 0; x < 4; x++) {
-                        for(var y = 0; y < 4; y++) {
-                            var newX = i+dx[x];
-                            var newY = j+dy[y];
-                            var vertical = (dx[x] < 0)?'Up':'Down';
-                            var horizontal = (dy[y] < 0)?'Left':'Right';
-                            var direction = vertical+horizontal;
-                            var adjacentTile = {};
-                            adjacentTile.direction = direction;
-                            adjacentTile.tile = null;
-                            if(newX > 0 && newX <= 8 && newY > 0 && newY <= 8)
-                                adjacentTile.tile = this.playableTiles[newX][newY];
-                            adjacentTiles.push(adjacentTile);
-                        }
+                    for(var k = 0; k < 4; k++) {
+                        var newX = i+dx[k];
+                        var newY = j+dy[k];
+                        var vertical = (dx[k] < 0)?'Up':'Down';
+                        var horizontal = (dy[k] < 0)?'Left':'Right';
+                        var direction = vertical+horizontal;
+                        var adjacentTile = {};
+                        adjacentTile.direction = direction;
+                        adjacentTile.tile = null;
+                        if(newX > 0 && newX <= 8 && newY > 0 && newY <= 8)
+                            adjacentTile.tile = this.playableTiles[newX][newY];
+                        adjacentTiles.push(adjacentTile);
                     }
                     this.playableTiles[i][j].adjacentTiles = adjacentTiles;
                 }
@@ -261,10 +271,10 @@ play.prototype = {
         var that = this;
         var returnVal = false;
         tile.adjacentTiles.forEach(function(adjTile) {
-            if(adjTile.tile !== null && that._isValidSingleStep(token, adjTile)) {
+            if(adjTile.tile !== null && that._isValidSingleStep(token, adjTile.tile)) {
                 returnVal = true;
             }
-        })
+        });
         return returnVal;
     },
 
@@ -372,7 +382,18 @@ play.prototype = {
         if(this._isValidCaptureMove(token, tile)) {
             this._captureToken(token, this._getTokenForCaptureMove(token, tile));
         }
+        token.image.destroy();
         token.onTile = tile;
+        if(token.player === 1) {
+            var posLeft = (tile.col-1)*120 + CONSTANTS.BOARD.OFFSET.LEFT;
+            var posTop = (tile.row-1)*120 + CONSTANTS.BOARD.OFFSET.TOP;
+            token.image = this.game.add.image(posLeft, posTop, "checker-light");
+        }
+        else {
+            var posLeft = (tile.col-1)*120 + CONSTANTS.BOARD.OFFSET.LEFT;
+            var posTop = (tile.row-1)*120 + CONSTANTS.BOARD.OFFSET.TOP;
+            token.image = this.game.add.image(posLeft, posTop, "checker-dark");
+        }
         tile.occupiedBy = token;
         if(this.canPromote(token)) this.promoteToken(token);
     },
@@ -404,11 +425,32 @@ play.prototype = {
     _deselectActiveToken: function(token) {
         this.activeToken = null;
         this._unHighlightAvailableMoves(token);
-        this._highlightTile(token.onTile, false);
+        this._highlightTile(token.onTile, false, 'selected');
     },
 
     //Done, Review
-    _highlightTile: function(tile, type) {
+    /*
+        tile {
+            row, col, adjacentTiles, occupiedBy
+        }
+     */
+    _highlightTile: function(tile, highlight, type) {
+        if(highlight) {
+            if(type === "selected") {
+
+            }
+            else if(type ===  "canMove") {
+
+            }
+        }
+        else {
+            if(type === "selected") {
+
+            }
+            else if(type ===  "canMove") {
+
+            }
+        }
         //ToDo: Sahil
     },
     //Done, Review
@@ -419,8 +461,8 @@ play.prototype = {
     _highlightTiles: function(arrayOfTiles, activate, type) {
         var that = this;
         arrayOfTiles.forEach(function(tile) {
-            if(activate) that._highlightTile(tile, type);
-            else         that._unHighlightTile(tile);
+            if(activate) that._highlightTile(tile, true, type);
+            else         that._highlightTile(tile, false, type);
         })
     },
     //Done, Review
@@ -543,8 +585,9 @@ play.prototype = {
 
     _hasNoMove: function(player) {
         var returnVal = true;
+        var that = this;
         this.playerTokens[player].forEach(function(token) {
-            if(this._hasAnyMove(token)) {
+            if(that._hasAnyMove(token)) {
                 returnVal = false;
             }
         })
