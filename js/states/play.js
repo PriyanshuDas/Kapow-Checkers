@@ -41,35 +41,39 @@ play.prototype = {
 		}
 		if(this.redrawBoard) {
             for(var i=0; i<this.player1KillCounter; i++) {
-                if(typeof this.player1Kills[Math.floor(i/6)][i%6] === "number") {
-                    switch(this.player1Kills[Math.floor(i/6)][i%6]) {
-                        case 222:
-                        case 2:
-                            var piece = this.game.add.image(60+(i%6)*120, 1620+(Math.floor(i/6))*120, "checker-light");
-                            this.player1Kills[Math.floor(i/6)][i%6] = piece;
-                            break;
-                        case 2222:
-                        case 20:
-                            var piece = this.game.add.image(60+(i%6)*120, 1620+(Math.floor(i/6))*120, "checker-light-king");
-                            this.player1Kills[Math.floor(i/6)][i%6] = piece;
-                            break;
-                    }
+                if(this.player1Kills[Math.floor(i/6)][i%6]) {
+                    var temp = this.player1Kills[Math.floor(i / 6)][i % 6].number;
+                    this.player1Kills[Math.floor(i / 6)][i % 6].image && this.player1Kills[Math.floor(i / 6)][i % 6].image.destroy();
+                }
+                switch(temp) {
+                    case 222:
+                    case 2:
+                        var piece = this.game.add.image(60+(i%6)*120, 1620+(Math.floor(i/6))*120, "checker-light");
+                        this.player1Kills[Math.floor(i/6)][i%6].image = piece;
+                        break;
+                    case 2222:
+                    case 20:
+                        var piece = this.game.add.image(60+(i%6)*120, 1620+(Math.floor(i/6))*120, "checker-light-king");
+                        this.player1Kills[Math.floor(i/6)][i%6].image = piece;
+                        break;
                 }
             }
             for(var i=0; i<this.player2KillCounter; i++) {
-                if(typeof this.player2Kills[Math.floor(i/6)][i%6] === "number") {
-                    switch(this.player2Kills[Math.floor(i/6)][i%6]) {
-                        case 111:
-                        case 1:
-                            var piece = this.game.add.image(300+(i%6)*120, 190+(Math.floor(i/6))*120, "checker-dark");
-                            this.player2Kills[Math.floor(i/6)][i%6] = piece;
-                            break;
-                        case 1111:
-                        case 10:
-                            var piece = this.game.add.image(300+(i%6)*120, 190+(Math.floor(i/6))*120, "checker-dark-king");
-                            this.player2Kills[Math.floor(i/6)][i%6] = piece;
-                            break;
-                    }
+                if(this.player2Kills[Math.floor(i/6)][i%6]) {
+                    var temp = this.player2Kills[Math.floor(i / 6)][i % 6].number;
+                    this.player2Kills[Math.floor(i / 6)][i % 6].image && this.player2Kills[Math.floor(i / 6)][i % 6].image.destroy();
+                }
+                switch(temp) {
+                    case 111:
+                    case 1:
+                        var piece = this.game.add.image(300+(i%6)*120, 190+(Math.floor(i/6))*120, "checker-dark");
+                        this.player2Kills[Math.floor(i/6)][i%6].image = piece;
+                        break;
+                    case 1111:
+                    case 10:
+                        var piece = this.game.add.image(300+(i%6)*120, 190+(Math.floor(i/6))*120, "checker-dark-king");
+                        this.player2Kills[Math.floor(i/6)][i%6].image = piece;
+                        break;
                 }
             }
 		    for(var i=0; i<8; i++) {
@@ -143,7 +147,7 @@ play.prototype = {
 	drawBackground: function() {
 		this.game.stage.backgroundColor = "#f4f2f5";
 		this.kills2 = this.game.add.image(280, 170, "player-2-kills");
-        this.kills1 = this.game.add.image(40, 1600, "player-1-kills");
+        this.kills1 = this.game.add.image(40, 1600, "player-1-kills-active");
 	},
 
 	drawBoard: function() {
@@ -167,6 +171,10 @@ play.prototype = {
 		for(var i=0; i<2; i++) {
 		    this.player1Kills[i] = [];
 		    this.player2Kills[i] = [];
+		    for(var j=0; j<6; j++) {
+		        this.player1Kills[i][j] = {};
+		        this.player2Kills[i][j] = {};
+            }
         }
 
 		for(var i=0; i<8; i++) {
@@ -239,14 +247,22 @@ play.prototype = {
         }
     },
 
+    resetBoard: function() {
+	    for(var i=0; i<8; i++) {
+	        for(var j=0; j<8; j++) {
+	            if(this.board[i][j] === 111) this.board[i][j] = 1;
+	            else if(this.board[i][j] === 1111) this.board[i][j] = 10;
+	            else if(this.board[i][j] === 222) this.board[i][j] = 2;
+	            else if(this.board[i][j] === 2222) this.board[i][j] = 20;
+            }
+        }
+    },
+
     changePlayer: function() {
+	    this.resetBoard();
 	    if(this.player===1) {
             this.turnIcon && this.turnIcon.destroy();
             this.turnIcon = this.game.add.image(395, 25, "checker-light");
-            this.kills1 && this.kills1.destroy();
-            this.kills1 = this.game.add.image(40, 1600, "player-1-kills")
-            this.kills2 && this.kills2.destroy();
-            this.kills2 = this.game.add.image(280, 170, "player-2-kills-active");
 	        this.player = 2;
 	        var forced = false;
 	        for(var i=0; i<8; i++) {
@@ -314,10 +330,6 @@ play.prototype = {
             this.turnIcon && this.turnIcon.destroy();
             this.turnIcon = this.game.add.image(395, 25, "checker-dark");
             this.player = 1;
-            this.kills1 && this.kills1.destroy();
-            this.kills1 = this.game.add.image(40, 1600, "player-1-kills-active")
-            this.kills2 && this.kills2.destroy();
-            this.kills2 = this.game.add.image(280, 170, "player-2-kills");
             var forced = false;
             for(var i=0; i<8; i++) {
                 for(var j=0; j<8; j++) {
@@ -509,6 +521,18 @@ play.prototype = {
                         this.board[7][j] = 20;
                     }
                 }
+                if(this.player === 1) {
+                    this.kills1 && this.kills1.destroy();
+                    this.kills1 = this.game.add.image(40, 1600, "player-1-kills")
+                    this.kills2 && this.kills2.destroy();
+                    this.kills2 = this.game.add.image(280, 170, "player-2-kills-active");
+                }
+                else {
+                    this.kills2 && this.kills1.destroy();
+                    this.kills2 = this.game.add.image(280, 170, "player-2-kills")
+                    this.kills1 && this.kills1.destroy();
+                    this.kills1 = this.game.add.image(40, 1600, "player-1-kills-active");
+                }
                 this.boardState = "none";
                 this.redrawBoard = true;
                 this.moveSound.play();
@@ -536,14 +560,27 @@ play.prototype = {
                     var midX = dirX/2;
                     var midY = dirY/2;
                     if(this.player === 1) {
-                        this.player1Kills[Math.floor(this.player1KillCounter/6)][this.player1KillCounter%6] = this.board[sx+midX][sy+midY];
+                        this.player1Kills[Math.floor(this.player1KillCounter/6)][this.player1KillCounter%6].number = this.board[sx+midX][sy+midY];
                         this.player1KillCounter++;
                     }
                     else {
-                        this.player2Kills[Math.floor(this.player2KillCounter/6)][this.player2KillCounter%6] = this.board[sx+midX][sy+midY];
+                        this.player2Kills[Math.floor(this.player2KillCounter/6)][this.player2KillCounter%6].number = this.board[sx+midX][sy+midY];
                         this.player2KillCounter++;
                     }
                     //this.capture(sx + midX, sy+midY);
+
+                    if(this.player === 1) {
+                        this.kills1 && this.kills1.destroy();
+                        this.kills1 = this.game.add.image(40, 1600, "player-1-kills")
+                        this.kills2 && this.kills2.destroy();
+                        this.kills2 = this.game.add.image(280, 170, "player-2-kills-active");
+                    }
+                    else {
+                        this.kills2 && this.kills1.destroy();
+                        this.kills2 = this.game.add.image(280, 170, "player-2-kills")
+                        this.kills1 && this.kills1.destroy();
+                        this.kills1 = this.game.add.image(40, 1600, "player-1-kills-active");
+                    }
                     this.board[sx+midX][sy+midY] = 0;
                     this.board[sx][sy] = 0;
                     this.board[targetX][targetY] = (piece-1)/10;
