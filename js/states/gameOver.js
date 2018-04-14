@@ -25,10 +25,10 @@ gameOver.prototype = {
 		this.drawBackground();
 		this.drawBoard();
 		if(this.winner===1) {
-            this.game.add.image(200, 170, "win");
+            this.game.add.image(200, 170, "p1-win");
         }
         else {
-            this.game.add.image(200, 170, "lose");
+            this.game.add.image(200, 170, "p2-win");
         }
         var home = this.game.add.image(300, 1600, "home");
 		home.inputEnabled = true;
