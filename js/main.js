@@ -8,8 +8,8 @@
 	game.state.add("Menu", menu);
 	game.state.add("Play", play);
 	game.state.add("GameOver", gameOver);
-	game.state.add("Player1Wins", player1Wins);
-	game.state.add("Player1Loses", player1Loses);
+	// game.state.add("Player1Wins", player1Wins);
+	// game.state.add("Player1Loses", player1Loses);
 	game.state.start("Boot");
 
 }());

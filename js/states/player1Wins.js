@@ -12,7 +12,7 @@ play.prototype = {
         this.drawBackground();
         this.drawBoard();
         this.game.add.image(200, 170, "win");
-        this.game.add.image(300, 1600, "home")
+        this.game.add.image(300, 1600, "home");
     },
 
     drawBackground: function() {
