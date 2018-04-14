@@ -38,6 +38,8 @@ preload.prototype = {
         this.game.load.image("home", "assets/images/home.png");
         this.game.load.image("turn", "assets/images/turn.png");
         this.game.load.image("back", "assets/images/back.png");
+        this.game.load.image("options", "assets/images/options.png");
+        this.game.load.image("rules", "assets/images/rules.png");
         this.game.load.audio("game-audio", "assets/audio/game-audio.mp3");
         this.game.load.audio("move-sound", "assets/audio/tap.mp3");
         this.game.load.audio("gameover-sound", "assets/audio/gameover.mp3");

@@ -12,11 +12,12 @@ play.prototype = {
 
 	create: function() {
         this.drawBackground();
-        this.turn = this.game.add.image(370, 15, "turn");
-	    var back = this.game.add.image(40, 20, "back");
+	    var back = this.game.add.image(40, 40, "back");
         back.inputEnabled = true;
         back.events.onInputDown.add(this.onBackButton, this);
-	    this.turnIcon = null;
+        var options = this.game.add.image(920, 40, "options");
+        options.inputEnabled = true;
+        options.events.onInputDown.add(this.onOptions, this);
 	    this.boardOffsetTop = 490;
 	    this.boardOffsetLeft = 10;
 	    this.tileOffsetTop = 540;
@@ -29,6 +30,17 @@ play.prototype = {
 
     onBackButton: function() {
 	    this.state.start("Menu");
+    },
+
+    onOptions: function() {
+	    this.rules = this.game.add.image(0, 0, "rules");
+	    this.rules.inputEnabled = true;
+        this.rules.input.priorityID = 4;
+	    this.rules.events.onInputDown.add(this.hideRules, this);
+    },
+
+    hideRules: function() {
+	    this.rules && this.rules.destroy();
     },
 
 	init: function() {
@@ -293,9 +305,7 @@ play.prototype = {
     changePlayer: function() {
 	    this.resetBoard();
 	    if(this.player===1) {
-            this.turnIcon && this.turnIcon.destroy();
-            this.turnIcon = this.game.add.image(395, 25, "checker-light");
-	        this.player = 2;
+            this.player = 2;
 	        var forced = false;
 	        for(var i=0; i<8; i++) {
 	            for(var j=0; j<8; j++) {
@@ -359,8 +369,6 @@ play.prototype = {
             }
         }
         else {
-            this.turnIcon && this.turnIcon.destroy();
-            this.turnIcon = this.game.add.image(395, 25, "checker-dark");
             this.player = 1;
             var forced = false;
             for(var i=0; i<8; i++) {
