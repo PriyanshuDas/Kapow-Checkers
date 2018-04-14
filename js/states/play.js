@@ -248,13 +248,8 @@ play.prototype = {
         }
     },
 
-<<<<<<< HEAD
     selectRandom: function(l) {
         return Math.floor(Math.random()*l);
-=======
-    selectRandom(l) {
-	    return Math.floor(Math.random()*    l);
->>>>>>> ef55cd5f07dd47e8c0f2b232fc1d3876037057ca
     },
 
     makeAImove: function() {
