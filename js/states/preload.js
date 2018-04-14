@@ -14,6 +14,7 @@ preload.prototype = {
         this.game.load.image('cell', 'assets/images/tile-black.png');
         this.game.load.image('board-background', 'assets/images/board-background.png');
         this.game.load.image("background", "assets/images/background.png");
+        this.game.load.image("upper-background", "assets/images/upper-background.png");
         this.game.load.image("playButton", "assets/images/vs-friend.png");
         this.game.load.image("checker-dark", "assets/images/checker-dark.png");
         this.game.load.image("checker-dark-selected", "assets/images/checker-dark-selected.png");
@@ -27,7 +28,9 @@ preload.prototype = {
         this.game.load.image("checker-light-place", "assets/images/checker-light-place.png");
         this.game.load.image("lavaflow", "assets/images/lavaflow.png");
         this.game.load.image("player-1-kills", "assets/images/player-1-kills.png");
+        this.game.load.image("player-1-kills-active", "assets/images/player-1-kills-active.png");
         this.game.load.image("player-2-kills", "assets/images/player-2-kills.png");
+        this.game.load.image("player-2-kills-active", "assets/images/player-2-kills-active.png");
         this.game.load.image("win", "assets/images/win.png");
         this.game.load.image("lose", "assets/images/lose.png");
         this.game.load.image("home", "assets/images/home.png");

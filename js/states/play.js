@@ -11,8 +11,9 @@ play.prototype = {
 	},
 
 	create: function() {
+        this.drawBackground();
         this.turn = this.game.add.image(370, 15, "turn");
-	    var back = this.game.add.image(40, 40, "back");
+	    var back = this.game.add.image(40, 20, "back");
         back.inputEnabled = true;
         back.events.onInputDown.add(this.onBackButton, this);
 	    this.turnIcon = null;
@@ -22,8 +23,7 @@ play.prototype = {
 	    this.tileOffsetLeft = 60;
 		this.redrawBoard = false;
 	    this.init();
-		this.drawBackground();
-        this.player = 2;
+		this.player = 2;
         this.drawBoard();
 	},
 
@@ -142,8 +142,8 @@ play.prototype = {
 
 	drawBackground: function() {
 		this.game.stage.backgroundColor = "#f4f2f5";
-		this.game.add.image(280, 170, "player-2-kills");
-        this.game.add.image(40, 1600, "player-1-kills");
+		this.kills2 = this.game.add.image(280, 170, "player-2-kills");
+        this.kills1 = this.game.add.image(40, 1600, "player-1-kills");
 	},
 
 	drawBoard: function() {
@@ -243,6 +243,10 @@ play.prototype = {
 	    if(this.player===1) {
             this.turnIcon && this.turnIcon.destroy();
             this.turnIcon = this.game.add.image(395, 25, "checker-light");
+            this.kills1 && this.kills1.destroy();
+            this.kills1 = this.game.add.image(40, 1600, "player-1-kills")
+            this.kills2 && this.kills2.destroy();
+            this.kills2 = this.game.add.image(280, 170, "player-2-kills-active");
 	        this.player = 2;
 	        var forced = false;
 	        for(var i=0; i<8; i++) {
@@ -277,6 +281,21 @@ play.prototype = {
                     }
                 }
             }
+            else {
+                for(var i=0; i<8; i++) {
+                    for(var j=0; j<8; j++) {
+                        if(this.board[i][j] === 2 || this.board[i][j] === 20) { // player 2's piece or king piece
+                            this.moves = [];
+                            this._highlightAvailableMoves(i, j, this.board[i][j], 2);
+                            this.clearHighlightedMoves();
+                            if(!this.moves.length) {
+                                if(this.board[i][j] === 2) this.board[i][j] = 222;
+                                else if(this.board[i][j] === 20) this.board[i][j] = 2222;
+                            }
+                        }
+                    }
+                }
+            }
             for(var i=0; i<8; i++) {
 	            for(var j=0; j<8; j++) {
 	                if(this.board[i][j] === -1 || this.board[i][j] === -2) {
@@ -295,6 +314,10 @@ play.prototype = {
             this.turnIcon && this.turnIcon.destroy();
             this.turnIcon = this.game.add.image(395, 25, "checker-dark");
             this.player = 1;
+            this.kills1 && this.kills1.destroy();
+            this.kills1 = this.game.add.image(40, 1600, "player-1-kills-active")
+            this.kills2 && this.kills2.destroy();
+            this.kills2 = this.game.add.image(280, 170, "player-2-kills");
             var forced = false;
             for(var i=0; i<8; i++) {
                 for(var j=0; j<8; j++) {
@@ -324,6 +347,22 @@ play.prototype = {
                         }
                         else if(this.board[i][j] === 1111) {
                             this.board[i][j] = 10;
+                        }
+                    }
+                }
+            }
+
+            else {
+                for(var i=0; i<8; i++) {
+                    for(var j=0; j<8; j++) {
+                        if(this.board[i][j] === 1 || this.board[i][j] === 10) { // player 1's piece or king piece
+                            this.moves = [];
+                            this._highlightAvailableMoves(i, j, this.board[i][j], 1);
+                            this.clearHighlightedMoves();
+                            if(!this.moves.length) {
+                                if(this.board[i][j] === 1) this.board[i][j] = 111;
+                                else if(this.board[i][j] === 10) this.board[i][j] = 1111;
+                            }
                         }
                     }
                 }
@@ -504,7 +543,7 @@ play.prototype = {
                         this.player2Kills[Math.floor(this.player2KillCounter/6)][this.player2KillCounter%6] = this.board[sx+midX][sy+midY];
                         this.player2KillCounter++;
                     }
-                    this.capture(sx + midX, sy+midY);
+                    //this.capture(sx + midX, sy+midY);
                     this.board[sx+midX][sy+midY] = 0;
                     this.board[sx][sy] = 0;
                     this.board[targetX][targetY] = (piece-1)/10;
