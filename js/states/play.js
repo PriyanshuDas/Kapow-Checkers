@@ -24,6 +24,7 @@ play.prototype = {
 		this.redrawBoard = false;
 	    this.init();
 		this.player = 2;
+		this.AI = 2;
         this.drawBoard();
 	},
 
@@ -239,6 +240,38 @@ play.prototype = {
         }
     },
 
+    selectRandom(l) {
+	    return Math.floor(Math.random()*    l);
+    },
+
+    makeAImove: function() {
+        var that = this;
+        var validSelections = [];
+        for(var i = 0; i < 8; i++) {
+            for(var j = 0; j < 8; j++) {
+                if(that.board[i][j] === that.AI || that.board[i][j] === 10*that.AI) {
+                    validSelections.push({x: JSON.parse(JSON.stringify(i)), y: JSON.parse(JSON.stringify(j)) });
+                }
+            }
+        }
+        var selectedItem = validSelections[that.selectRandom(validSelections.length)];
+        setTimeout(function() {
+            that.handleInput(selectedItem.x, selectedItem.y);
+            var validMoves = [];
+            for (var i = 0; i < 8; i++) {
+                for (var j = 0; j < 8; j++) {
+                    if (that.board[i][j] < 0) {
+                        validMoves.push({x: JSON.parse(JSON.stringify(i)), y: JSON.parse(JSON.stringify(j))});
+                    }
+                }
+            }
+            var selectedPosition = validMoves[that.selectRandom(validMoves.length)];
+            setTimeout(function() {
+                that.handleInput(selectedPosition.x, selectedPosition.y);
+            }.bind(this), 200);
+        }.bind(this), 200);
+    },
+
     changePlayer: function() {
 	    if(this.player===1) {
             this.turnIcon && this.turnIcon.destroy();
@@ -389,6 +422,8 @@ play.prototype = {
 	            this.state.start("GameOver", true, false, this.board, 1);
             }
         }
+        else if (this.player === this.AI)
+            this.makeAImove();
     },
 
     checkGameOver: function() {
