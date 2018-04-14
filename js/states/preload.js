@@ -39,10 +39,11 @@ preload.prototype = {
         this.game.load.image("turn", "assets/images/turn.png");
         this.game.load.image("back", "assets/images/back.png");
         this.game.load.audio("game-audio", "assets/audio/game-audio.mp3");
-        this.game.load.audio("move-sound", "assets/audio/move-sound.wav");
+        this.game.load.audio("move-sound", "assets/audio/tap.mp3");
+        this.game.load.audio("gameover-sound", "assets/audio/gameover.mp3");
 	},
 
-    _createLoader() {
+    _createLoader: function() {
         this.progressBar = this.game.add.sprite(this.world.centerX - 360, this.world.centerY, "progressBar");
         this.progressBar.anchor.setTo(0, 0.5);
         this.game.stage.addChild(this.progressBar);
@@ -53,12 +54,13 @@ preload.prototype = {
         this.game.stage.addChild(this.progressBackground);
     },
 
-    _onLoadComplete() {
+    _onLoadComplete: function() {
         this.sound = this.game.add.audio('game-audio');
-        this.game.sound.setDecodedCallback([this.sound], this._start, this);
+        this.moveSound = this.game.add.audio("move-sound");
+        this.game.sound.setDecodedCallback([this.sound, this.moveSound], this._start, this);
     },
 
-    _start() {
+    _start: function() {
         this.sound.play();
         this.sound.mute = false;
         this.sound.loop = true;
@@ -66,7 +68,7 @@ preload.prototype = {
         this.loadingComplete = true;
     },
 
-    update() {
+    update: function() {
         if(this.loadingComplete) {
             console.log("Loading Complete");
             this.progressBackground.destroy();

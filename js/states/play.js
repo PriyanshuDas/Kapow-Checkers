@@ -427,9 +427,11 @@ play.prototype = {
         }
         if(this.checkGameOver()) {
 	        if(this.player === 1) {
+	            this.game.sound.stopAll();
                 this.state.start("GameOver", true, false, this.board, 2);
             }
             else {
+                this.game.sound.stopAll();
 	            this.state.start("GameOver", true, false, this.board, 1);
             }
         }
@@ -569,7 +571,11 @@ play.prototype = {
                 }
                 this.boardState = "none";
                 this.redrawBoard = true;
-                this.moveSound.play();
+                this.game.sound.play("move-sound");
+                setTimeout(function() {
+                    if(this.game.state.current === "Play")
+                        this.game.sound.stopAll();
+                }.bind(this), 500);
                 this.changePlayer();
             }
             else if(this.board[x][y]===-2) {
@@ -642,7 +648,11 @@ play.prototype = {
                 }
                 this.boardState = "none";
                 this.redrawBoard = true;
-                this.moveSound.play();
+                this.game.sound.play("move-sound");
+                setTimeout(function() {
+                    if(this.game.state.current === "Play")
+                        this.game.sound.stopAll();
+                }.bind(this), 500);
                 this.changePlayer();
             }
             else {

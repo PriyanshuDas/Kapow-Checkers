@@ -20,7 +20,8 @@ gameOver.prototype = {
 	},
 
 	create: function() {
-		console.log("Create");
+        this.game.sound.play("gameover-sound");
+        console.log("Create");
 		this.drawBackground();
 		this.drawBoard();
 		if(this.winner===1) {

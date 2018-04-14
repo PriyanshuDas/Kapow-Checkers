@@ -16,7 +16,7 @@ menu.prototype = {
 
 	onPassAndPlay: function() {
 		console.log("start game!");
-		this.sound.mute = true;
+		this.game.sound.stopAll();
         this.state.states["Play"].AI = 0;
 		this.state.start("Play", true);
 	},
