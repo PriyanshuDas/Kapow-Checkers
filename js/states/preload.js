@@ -20,6 +20,11 @@ preload.prototype = {
         this.game.load.image("checker-light-king-selected", "assets/images/checker-light-king-selected.png");
         this.game.load.image("checker-light-place", "assets/images/checker-light-place.png");
         this.game.load.image("lavaflow", "assets/images/lavaflow.png");
+        this.game.load.image("player-1-kills", "assets/images/player-1-kills.png");
+        this.game.load.image("player-2-kills", "assets/images/player-2-kills.png");
+        this.game.load.image("win", "assets/images/win.png");
+        this.game.load.image("lose", "assets/images/lose.png");
+        this.game.load.image("home", "assets/images/home.png");
 	},
 
 	create: function() {

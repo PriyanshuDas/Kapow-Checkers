@@ -9,9 +9,14 @@ play.prototype = {
 	},
 
 	create: function() {
+	    this.boardOffsetTop = 490;
+	    this.boardOffsetLeft = 10;
+	    this.tileOffsetTop = 540;
+	    this.tileOffsetLeft = 60;
 		this.redrawBoard = false;
 	    this.init();
 		this.drawBackground();
+        this.player = 2;
         // this.inputAllowed = false;
         // this.lastClickedTile = null;
         // this._setBoardStyle('american');
@@ -34,55 +39,95 @@ play.prototype = {
 			this.updateTimer();
 		}
 		if(this.redrawBoard) {
+            for(var i=0; i<this.player1KillCounter; i++) {
+                if(typeof this.player1Kills[Math.floor(i/6)][i%6] === "number") {
+                    switch(this.player1Kills[Math.floor(i/6)][i%6]) {
+                        case 222:
+                        case 2:
+                            var piece = this.game.add.image(60+(i%6)*120, 1620+(Math.floor(i/6))*120, "checker-light");
+                            this.player1Kills[Math.floor(i/6)][i%6] = piece;
+                            break;
+                        case 2222:
+                        case 20:
+                            var piece = this.game.add.image(60+(i%6)*120, 1620+(Math.floor(i/6))*120, "checker-light-king");
+                            this.player1Kills[Math.floor(i/6)][i%6] = piece;
+                            break;
+                    }
+                }
+            }
+            for(var i=0; i<this.player2KillCounter; i++) {
+                if(typeof this.player2Kills[Math.floor(i/6)][i%6] === "number") {
+                    switch(this.player2Kills[Math.floor(i/6)][i%6]) {
+                        case 111:
+                        case 1:
+                            var piece = this.game.add.image(300+(i%6)*120, 190+(Math.floor(i/6))*120, "checker-dark");
+                            this.player2Kills[Math.floor(i/6)][i%6] = piece;
+                            break;
+                        case 1111:
+                        case 10:
+                            var piece = this.game.add.image(300+(i%6)*120, 190+(Math.floor(i/6))*120, "checker-dark-king");
+                            this.player2Kills[Math.floor(i/6)][i%6] = piece;
+                            break;
+                    }
+                }
+            }
 		    for(var i=0; i<8; i++) {
 		        for(var j=0; j<8; j++) {
 		            switch(this.board[i][j]) {
+                        case 111:
                         case 1: this.checkerBoard[i][j] && this.checkerBoard[i][j].destroy();
-                                var piece = this.game.add.image(60+j*120, 480+i*120, "checker-dark");
+                                var piece = this.game.add.image(this.tileOffsetLeft+j*120, this.tileOffsetTop+i*120, "checker-dark");
                                 this.checkerBoard[i][j] = piece;
                             break;
+                        case 1111:
                         case 10: this.checkerBoard[i][j] && this.checkerBoard[i][j].destroy();
-                            var piece = this.game.add.image(60+j*120, 480+i*120, "checker-dark-king");
+                            var piece = this.game.add.image(this.tileOffsetLeft+j*120, this.tileOffsetTop+i*120, "checker-dark-king");
                             this.checkerBoard[i][j] = piece;
                             break;
+                        case 11101:
                         case 11: this.checkerBoard[i][j] && this.checkerBoard[i][j].destroy();
-                            var piece = this.game.add.image(60+j*120, 480+i*120, "checker-dark-selected");
+                            var piece = this.game.add.image(this.tileOffsetLeft+j*120, this.tileOffsetTop+i*120, "checker-dark-selected");
                             this.checkerBoard[i][j] = piece;
                             break;
+                        case 111101:
                         case 101: this.checkerBoard[i][j] && this.checkerBoard[i][j].destroy();
-                            var piece = this.game.add.image(60+j*120, 480+i*120, "checker-dark-king-selected");
+                            var piece = this.game.add.image(this.tileOffsetLeft+j*120, this.tileOffsetTop+i*120, "checker-dark-king-selected");
                             this.checkerBoard[i][j] = piece;
                             break;
+                        case 222:
                         case 2: this.checkerBoard[i][j] && this.checkerBoard[i][j].destroy();
-                            var piece = this.game.add.image(60+j*120, 480+i*120, "checker-light");
+                            var piece = this.game.add.image(this.tileOffsetLeft+j*120, this.tileOffsetTop+i*120, "checker-light");
                             this.checkerBoard[i][j] = piece;
                             break;
+                        case 2222:
                         case 20: this.checkerBoard[i][j] && this.checkerBoard[i][j].destroy();
-                            var piece = this.game.add.image(60+j*120, 480+i*120, "checker-light-king");
+                            var piece = this.game.add.image(this.tileOffsetLeft+j*120, this.tileOffsetTop+i*120, "checker-light-king");
                             this.checkerBoard[i][j] = piece;
                             break;
+                        case 22201:
                         case 21: this.checkerBoard[i][j] && this.checkerBoard[i][j].destroy();
-                            var piece = this.game.add.image(60+j*120, 480+i*120, "checker-light-selected");
+                            var piece = this.game.add.image(this.tileOffsetLeft+j*120, this.tileOffsetTop+i*120, "checker-light-selected");
                             this.checkerBoard[i][j] = piece;
                             break;
+                        case 222201:
                         case 201: this.checkerBoard[i][j] && this.checkerBoard[i][j].destroy();
-                            var piece = this.game.add.image(60+j*120, 480+i*120, "checker-light-king-selected");
+                            var piece = this.game.add.image(this.tileOffsetLeft+j*120, this.tileOffsetTop+i*120, "checker-light-king-selected");
                             this.checkerBoard[i][j] = piece;
                             break;
                         case -1: this.checkerBoard[i][j] && this.checkerBoard[i][j].destroy();
                             var piece;
                             if(this.player === 1)
-                                piece = this.game.add.image(60+j*120, 480+i*120, "checker-dark-place");
+                                piece = this.game.add.image(this.tileOffsetLeft+j*120, this.tileOffsetTop+i*120, "checker-dark-place");
                             else
-                                piece = this.game.add.image(60+j*120, 480+i*120, "checker-light-place");
+                                piece = this.game.add.image(this.tileOffsetLeft+j*120, this.tileOffsetTop+i*120, "checker-light-place");
                             this.checkerBoard[i][j] = piece;
                             break;
                         case -2: this.checkerBoard[i][j] && this.checkerBoard[i][j].destroy();
                             var piece;
                             if(this.player === 1)
-                                piece = this.game.add.image(60+j*120, 480+i*120, "checker-dark-place");
+                                piece = this.game.add.image(this.tileOffsetLeft+j*120, this.tileOffsetTop+i*120, "checker-dark-place");
                             else
-                                piece = this.game.add.image(60+j*120, 480+i*120, "checker-light-place");
+                                piece = this.game.add.image(this.tileOffsetLeft+j*120, this.tileOffsetTop+i*120, "checker-light-place");
                             this.checkerBoard[i][j] = piece;
                             break;
                         default: this.checkerBoard[i][j] && this.checkerBoard[i][j].destroy();
@@ -96,14 +141,15 @@ play.prototype = {
 
 	drawBackground: function() {
 		this.game.stage.backgroundColor = "#f4f2f5";
+		this.game.add.image(280, 170, "player-2-kills");
+        this.game.add.image(40, 1600, "player-1-kills");
 	},
 
 	drawBoard: function() {
 
 	    this.boardState = "none";   // boardState: none, highlighted
-	    this.player = 1;
 
-		var bg = this.game.add.image(10, 430, "board-background");
+		var bg = this.game.add.image(this.boardOffsetLeft, this.boardOffsetTop, "board-background");
         bg.inputEnabled = true;
         bg.input.priorityID = 0;
         bg.events.onInputDown.add(this.onBackgroundClicked, this);
@@ -112,6 +158,16 @@ play.prototype = {
 		this.currentPath = [];
 		this.path = [];
 		this.checkerBoard = [];
+		this.player1Kills = [];
+		this.player2Kills = [];
+		this.player1KillCounter = 0;
+		this.player2KillCounter = 0;
+
+		for(var i=0; i<2; i++) {
+		    this.player1Kills[i] = [];
+		    this.player2Kills[i] = [];
+        }
+
 		for(var i=0; i<8; i++) {
 		    this.board[i] = [];
 		    this.path[i] = [];
@@ -130,11 +186,15 @@ play.prototype = {
         // -1: highlighted
         // -2: capture highlighted
         // 0: nothing
+        // 222: player 2 piece can't move
+        // 2222: player 2 king piece can't move
+        // 111: player 1 piece can't move
+        // 1111: player 1 king piece can't move
 
-		var posTop = CONSTANTS.BOARD.OFFSET.TOP;
+		var posTop = this.tileOffsetTop;
 		var cnt = 0;
 		for (var row = 0; row < CONSTANTS.BOARD.ROWS; row++) {
-			var posLeft = CONSTANTS.BOARD.OFFSET.LEFT;
+			var posLeft = this.tileOffsetLeft;
 			for (var col = 0; col < CONSTANTS.BOARD.COLS; col++) {
 				if((row+col)%2===1) {
                     var tile = this.game.add.image(posLeft, posTop, "cell");
@@ -165,14 +225,140 @@ play.prototype = {
 			}
 			posTop += CONSTANTS.BOARD.CELL.HEIGHT + CONSTANTS.BOARD.CELL_SPACING;
 		}
+		this.changePlayer();
 	},
+
+    clearHighlightedMoves: function() {
+	    for(var i=0; i<8; i++) {
+	        for(var j=0; j<8; j++) {
+	            if(this.board[i][j] === -1 || this.board[i][j] === -2) {
+	                this.board[i][j] = 0;
+                }
+            }
+        }
+    },
 
     changePlayer: function() {
 	    if(this.player===1) {
 	        this.player = 2;
+	        var forced = false;
+	        for(var i=0; i<8; i++) {
+	            for(var j=0; j<8; j++) {
+	                if(this.board[i][j] === 2 || this.board[i][j] === 20) { // player 2's piece or king piece
+	                    this.moves = [];
+	                    this._highlightAvailableMoves(i, j, this.board[i][j], 2, true);
+	                    this.clearHighlightedMoves();
+	                    if(this.moves.length) {
+	                        forced = true;
+	                        if(this.board[i][j] === 2) this.board[i][j] = 222;
+	                        else if(this.board[i][j] === 20) this.board[i][j] = 2222;
+                        }
+                    }
+                }
+            }
+            if(forced) {
+	            for(var i=0; i<8; i++) {
+	                for(var j=0; j<8; j++) {
+	                    if(this.board[i][j] === 2) {
+	                        this.board[i][j] = 222;
+                        }
+                        else if(this.board[i][j] === 20) {
+	                        this.board[i][j] = 2222;
+                        }
+                        else if(this.board[i][j] === 222) {
+	                        this.board[i][j] = 2;
+                        }
+                        else if(this.board[i][j] === 2222) {
+	                        this.board[i][j] = 20;
+                        }
+                    }
+                }
+            }
+            for(var i=0; i<8; i++) {
+	            for(var j=0; j<8; j++) {
+	                if(this.board[i][j] === -1 || this.board[i][j] === -2) {
+	                    this.board[i][j] = 0;
+                    }
+                    else if(this.board[i][j] === 111) {
+	                    this.board[i][j] = 1;
+                    }
+                    else if(this.board[i][j] === 1111) {
+	                    this.board[i][j] = 10;
+                    }
+                }
+            }
         }
         else {
 	        this.player = 1;
+            var forced = false;
+            for(var i=0; i<8; i++) {
+                for(var j=0; j<8; j++) {
+                    if(this.board[i][j] === 1 || this.board[i][j] === 10) { // player 1's piece or king piece
+                        this.moves = [];
+                        this._highlightAvailableMoves(i, j, this.board[i][j], 1, true);
+                        this.clearHighlightedMoves();
+                        if(this.moves.length) {
+                            forced = true;
+                            if(this.board[i][j] === 1) this.board[i][j] = 111;
+                            else if(this.board[i][j] === 10) this.board[i][j] = 1111;
+                        }
+                    }
+                }
+            }
+            if(forced) {
+                for(var i=0; i<8; i++) {
+                    for(var j=0; j<8; j++) {
+                        if(this.board[i][j] === 1) {
+                            this.board[i][j] = 111;
+                        }
+                        else if(this.board[i][j] === 10) {
+                            this.board[i][j] = 1111;
+                        }
+                        else if(this.board[i][j] === 111) {
+                            this.board[i][j] = 1;
+                        }
+                        else if(this.board[i][j] === 1111) {
+                            this.board[i][j] = 10;
+                        }
+                    }
+                }
+            }
+            for(var i=0; i<8; i++) {
+                for(var j=0; j<8; j++) {
+                    if(this.board[i][j] === -1 || this.board[i][j] === -2) {
+                        this.board[i][j] = 0;
+                    }
+                    else if(this.board[i][j] === 222) {
+                        this.board[i][j] = 2;
+                    }
+                    else if(this.board[i][j] === 2222) {
+                        this.board[i][j] = 20;
+                    }
+                }
+            }
+        }
+        if(this.checkGameOver()) {
+	        if(this.player === 1) {
+                this.state.start("Player1Loses", true, false, this.board);
+            }
+            else {
+	            this.state.start("Player1Wins", true, false, this.board);
+            }
+        }
+    },
+
+    checkGameOver: function() {
+	    if(this.player1KillCounter === 12 || this.player2KillCounter === 12) {
+	        return true;
+        }
+        if(this.player === 1) {
+	        for(var i=0; i<8; i++) {
+	            for(var j=0; j<8; j++) {
+	                if(this.board[i][j]===1 || this.board[i][j]===10) {
+
+                    }
+                }
+            }
         }
     },
 
@@ -185,8 +371,8 @@ play.prototype = {
 		var x, y;
 		var left = e.position.x;
 		var top = e.position.y;
-		y = (left-60)/120;
-		x = (top-480)/120;
+		y = (left-this.tileOffsetLeft)/120;
+		x = (top-this.tileOffsetTop)/120;
 		console.log(x, y);
 		this.handleInput(x, y);
 	},
@@ -200,11 +386,31 @@ play.prototype = {
                     this.boardState = "selected";
                     console.log(this.board);
                 }
+                else if(this.board[x][y] === 111) {
+                    this.board[x][y] = 11101;
+                    this.boardState = "selected";
+                    console.log(this.board);
+                }
+                else if(this.board[x][y] === 1111) {
+                    this.board[x][y] = 111101;
+                    this.boardState = "selected";
+                    console.log(this.board);
+                }
             }
             else {
                 if(this.board[x][y] === 2 || this.board[x][y] === 20) { // If player 2's piece, or player 2's king piece
                     this.board[x][y] = this.board[x][y]*10 + 1; // Make the piece selected.
                     this._highlightAvailableMoves(x, y, this.board[x][y], 2);
+                    this.boardState = "selected";
+                    console.log(this.board);
+                }
+                else if(this.board[x][y] === 222) {
+                    this.board[x][y] = 22201;
+                    this.boardState = "selected";
+                    console.log(this.board);
+                }
+                else if(this.board[x][y] === 2222) {
+                    this.board[x][y] = 222201;
                     this.boardState = "selected";
                     console.log(this.board);
                 }
@@ -238,6 +444,7 @@ play.prototype = {
                         this.board[7][j] = 20;
                     }
                 }
+                this.boardState = "none";
                 this.redrawBoard = true;
                 this.changePlayer();
             }
@@ -262,6 +469,14 @@ play.prototype = {
                     var dirY = targetY - sy;
                     var midX = dirX/2;
                     var midY = dirY/2;
+                    if(this.player === 1) {
+                        this.player1Kills[Math.floor(this.player1KillCounter/6)][this.player1KillCounter%6] = this.board[sx+midX][sy+midY];
+                        this.player1KillCounter++;
+                    }
+                    else {
+                        this.player2Kills[Math.floor(this.player2KillCounter/6)][this.player2KillCounter%6] = this.board[sx+midX][sy+midY];
+                        this.player2KillCounter++;
+                    }
                     this.board[sx+midX][sy+midY] = 0;
                     this.board[sx][sy] = 0;
                     this.board[targetX][targetY] = (piece-1)/10;
@@ -287,6 +502,7 @@ play.prototype = {
                         this.board[7][j] = 20;
                     }
                 }
+                this.boardState = "none";
                 this.redrawBoard = true;
                 this.changePlayer();
             }
@@ -300,6 +516,9 @@ play.prototype = {
                             if(this.board[i][j]===11 || this.board[i][j]===101 || this.board[i][j]===21 || this.board[i][j]===201) {
                                 this.board[i][j] = (this.board[i][j]-1)/10; // Deselect the piece.
                             }
+                            else if(this.board[i][j]===11101 || this.board[i][j]===111101 || this.board[i][j]===22201 || this.board[i][j]===222201) {
+                                this.board[i][j] = (this.board[i][j]-1)/100;    // Deselect the piece
+                            }
                         }
                     }
                 }
@@ -307,6 +526,11 @@ play.prototype = {
                     if(this.board[x][y] === 1 || this.board[x][y] === 10) { // If player 1's piece, or player 1's king piece
                         this.board[x][y] = this.board[x][y]*10 + 1; // Reselect the piece selected.
                         this._highlightAvailableMoves(x, y, this.board[x][y], 1);
+                        this.boardState = "selected";
+                        console.log(this.board);
+                    }
+                    else if(this.board[x][y] === 111 || this.board[x][y] === 1111) {    // If player 1's immovable piece.
+                        this.board[x][y] = this.board[x][y]*100 + 1;    // Select the piece
                         this.boardState = "selected";
                         console.log(this.board);
                     }
@@ -318,6 +542,11 @@ play.prototype = {
                     if(this.board[x][y] === 2 || this.board[x][y] === 20) { // If player 2's piece, or player 2's king piece
                         this.board[x][y] = this.board[x][y]*10 + 1; // Make the piece selected.
                         this._highlightAvailableMoves(x, y, this.board[x][y], 2);
+                        this.boardState = "selected";
+                        console.log(this.board);
+                    }
+                    else if(this.board[x][y] === 222 || this.board[x][y] === 2222) {    // If player 1's immovable piece.
+                        this.board[x][y] = this.board[x][y]*100 + 1;    // Select the piece
                         this.boardState = "selected";
                         console.log(this.board);
                     }
@@ -338,7 +567,7 @@ play.prototype = {
         return ret;
     },
 
-    _highlightAvailableMoves: function(x, y, piece, player) {
+    _highlightAvailableMoves: function(x, y, piece, player, checkingForcedMove) {
         this.path = this.createEmptyMatrix(8,8);
         this.currentPath = [];
 	    var dx,dy;
@@ -381,13 +610,15 @@ play.prototype = {
         this.dfs(x, y, dx2, dy2, player);
 
         if(!this.moves.length) {
-            for(var i=0; i<dx.length; i++) {
-                var nx = x + dx[i];
-                var ny = y + dy[i];
-                if(nx>=0 && nx<8 && ny>=0 && ny<8) {
-                    if (!this.board[nx][ny]) {
-                        this.board[nx][ny] = -1;
-                        this.moves.push({x: nx, y: ny});
+            if(!checkingForcedMove) {
+                for (var i = 0; i < dx.length; i++) {
+                    var nx = x + dx[i];
+                    var ny = y + dy[i];
+                    if (nx >= 0 && nx < 8 && ny >= 0 && ny < 8) {
+                        if (!this.board[nx][ny]) {
+                            this.board[nx][ny] = -1;
+                            this.moves.push({x: nx, y: ny});
+                        }
                     }
                 }
             }
