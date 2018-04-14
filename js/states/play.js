@@ -4,11 +4,18 @@ var play = function(game) {
 };
 
 play.prototype = {
+
 	preload: function() {
+	    this.moveSound = this.game.add.audio("move-sound");
 		console.log("Play!");
 	},
 
 	create: function() {
+        this.turn = this.game.add.image(370, 15, "turn");
+	    var back = this.game.add.image(40, 40, "back");
+        back.inputEnabled = true;
+        back.events.onInputDown.add(this.onBackButton, this);
+	    this.turnIcon = null;
 	    this.boardOffsetTop = 490;
 	    this.boardOffsetLeft = 10;
 	    this.tileOffsetTop = 540;
@@ -17,18 +24,12 @@ play.prototype = {
 	    this.init();
 		this.drawBackground();
         this.player = 2;
-        // this.inputAllowed = false;
-        // this.lastClickedTile = null;
-        // this._setBoardStyle('american');
-        // this._setupBoardGraph();
-        // this._initializeTokens();
         this.drawBoard();
-        // this.turnLimit = 40;
-        // this.turnCounter = 0;
-
-        //Assumes Both players are human on the same device
-        // this._createStartState({1: true, 2: true});
 	},
+
+    onBackButton: function() {
+	    this.state.start("Menu");
+    },
 
 	init: function() {
 		this.hasGameStarted = false;
@@ -240,6 +241,8 @@ play.prototype = {
 
     changePlayer: function() {
 	    if(this.player===1) {
+            this.turnIcon && this.turnIcon.destroy();
+            this.turnIcon = this.game.add.image(395, 25, "checker-light");
 	        this.player = 2;
 	        var forced = false;
 	        for(var i=0; i<8; i++) {
@@ -289,7 +292,9 @@ play.prototype = {
             }
         }
         else {
-	        this.player = 1;
+            this.turnIcon && this.turnIcon.destroy();
+            this.turnIcon = this.game.add.image(395, 25, "checker-dark");
+            this.player = 1;
             var forced = false;
             for(var i=0; i<8; i++) {
                 for(var j=0; j<8; j++) {
@@ -467,6 +472,7 @@ play.prototype = {
                 }
                 this.boardState = "none";
                 this.redrawBoard = true;
+                this.moveSound.play();
                 this.changePlayer();
             }
             else if(this.board[x][y]===-2) {
@@ -498,6 +504,7 @@ play.prototype = {
                         this.player2Kills[Math.floor(this.player2KillCounter/6)][this.player2KillCounter%6] = this.board[sx+midX][sy+midY];
                         this.player2KillCounter++;
                     }
+                    this.capture(sx + midX, sy+midY);
                     this.board[sx+midX][sy+midY] = 0;
                     this.board[sx][sy] = 0;
                     this.board[targetX][targetY] = (piece-1)/10;
@@ -525,6 +532,7 @@ play.prototype = {
                 }
                 this.boardState = "none";
                 this.redrawBoard = true;
+                this.moveSound.play();
                 this.changePlayer();
             }
             else {

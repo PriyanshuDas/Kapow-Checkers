@@ -15,6 +15,7 @@ menu.prototype = {
 
 	onClick: function() {
 		console.log("start game!");
+		this.sound.mute = true;
 		this.state.start("Play", true);
 	}
 }
