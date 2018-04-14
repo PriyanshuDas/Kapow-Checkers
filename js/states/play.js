@@ -24,7 +24,6 @@ play.prototype = {
 		this.redrawBoard = false;
 	    this.init();
 		this.player = 2;
-		this.AI = 2;
         this.drawBoard();
 	},
 

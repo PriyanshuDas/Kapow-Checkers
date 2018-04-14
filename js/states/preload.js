@@ -16,6 +16,8 @@ preload.prototype = {
         this.game.load.image("background", "assets/images/background.png");
         this.game.load.image("upper-background", "assets/images/upper-background.png");
         this.game.load.image("playButton", "assets/images/vs-friend.png");
+        this.game.load.image("pass-and-play", "assets/images/pass-and-play.png");
+        this.game.load.image("practice", "assets/images/practice.png");
         this.game.load.image("checker-dark", "assets/images/checker-dark.png");
         this.game.load.image("checker-dark-selected", "assets/images/checker-dark-selected.png");
         this.game.load.image("checker-dark-king", "assets/images/checker-dark-king.png");
