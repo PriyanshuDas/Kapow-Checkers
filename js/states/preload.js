@@ -63,10 +63,6 @@ preload.prototype = {
     },
 
     _start: function() {
-        this.sound.play();
-        this.sound.mute = false;
-        this.sound.loop = true;
-        this.sound.loopFull(0.2);
         this.loadingComplete = true;
     },
 
@@ -76,7 +72,7 @@ preload.prototype = {
             this.progressBackground.destroy();
             this.progressBar.destroy();
             this.loadingComplete = false;
-            this.state.start("Menu", true, this.moveAudio);
+            this.state.start("Menu", true);
         }
     }
 

@@ -35,6 +35,10 @@ gameOver.prototype = {
         home.events.onInputDown.add(this.onHomeButtonClicked, this);
 	},
 
+    destroy: function() {
+        this.game.sound.stopAll();
+    },
+
     onHomeButtonClicked: function() {
         this.state.start("Menu", true);
 	},
