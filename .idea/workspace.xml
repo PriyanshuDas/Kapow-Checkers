@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2d9a296b-948c-41be-addc-26a20f74e558" name="Default" comment="" />
+    <list default="true" id="2d9a296b-948c-41be-addc-26a20f74e558" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/Checkers.iml" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/.idea/Kapow-Checkers.iml" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change beforePath="$PROJECT_DIR$/assets/audio/move-audio.mp3" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/assets/audio/move-sound.wav" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/assets/images/rules.png" afterPath="$PROJECT_DIR$/assets/images/rules.png" />
+      <change beforePath="$PROJECT_DIR$/js/states/gameOver.js" afterPath="$PROJECT_DIR$/js/states/gameOver.js" />
+      <change beforePath="$PROJECT_DIR$/js/states/play.js" afterPath="$PROJECT_DIR$/js/states/play.js" />
+      <change beforePath="$PROJECT_DIR$/js/states/preload.js" afterPath="$PROJECT_DIR$/js/states/preload.js" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -14,11 +27,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="play.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="play.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/states/play.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="177">
-              <caret line="440" column="47" lean-forward="false" selection-start-line="440" selection-start-column="38" selection-end-line="440" selection-end-column="47" />
+            <state relative-caret-position="498">
+              <caret line="477" column="42" lean-forward="false" selection-start-line="477" selection-start-column="42" selection-end-line="477" selection-end-column="42" />
               <folding />
             </state>
           </provider>
@@ -27,8 +40,8 @@
       <file leaf-file-name="gameOver.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/states/gameOver.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="50" column="0" lean-forward="false" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
+            <state relative-caret-position="527">
+              <caret line="58" column="27" lean-forward="false" selection-start-line="58" selection-start-column="27" selection-end-line="58" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -44,13 +57,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="preload.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="preload.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/states/preload.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="697">
-              <caret line="41" column="21" lean-forward="false" selection-start-line="41" selection-start-column="21" selection-end-line="41" selection-end-column="21" />
+            <state relative-caret-position="430">
+              <caret line="82" column="1" lean-forward="false" selection-start-line="82" selection-start-column="1" selection-end-line="82" selection-end-column="1" />
               <folding />
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="draw.png" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/images/draw.png">
+          <provider selected="true" editor-type-id="images">
+            <state />
           </provider>
         </entry>
       </file>
@@ -65,8 +85,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>480</find>
-      <find>540</find>
       <find>60</find>
       <find>10</find>
       <find>GAME_O</find>
@@ -95,6 +113,8 @@
       <find>.current</find>
       <find>this.game.sound</find>
       <find>this.game.sound.stop</find>
+      <find>gameover&quot;</find>
+      <find>this.moveCounter</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -111,10 +131,10 @@
         <option value="$PROJECT_DIR$/js/main.js" />
         <option value="$PROJECT_DIR$/js/states/boot.js" />
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
-        <option value="$PROJECT_DIR$/js/states/play.js" />
-        <option value="$PROJECT_DIR$/js/states/gameOver.js" />
         <option value="$PROJECT_DIR$/js/states/menu.js" />
+        <option value="$PROJECT_DIR$/js/states/gameOver.js" />
         <option value="$PROJECT_DIR$/js/states/preload.js" />
+        <option value="$PROJECT_DIR$/js/states/play.js" />
       </list>
     </option>
   </component>
@@ -233,16 +253,15 @@
       <updated>1523634810941</updated>
       <workItem from="1523634816162" duration="271000" />
       <workItem from="1523635304500" duration="48321000" />
-      <workItem from="1523796645383" duration="12000" />
+      <workItem from="1523796645383" duration="4569000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="65939000" />
+    <option name="totallyTimeSpent" value="70496000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14732143" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -276,14 +295,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/js/states/play.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="434" column="0" lean-forward="false" selection-start-line="434" selection-start-column="0" selection-end-line="444" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/states/preload.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="680">
@@ -304,6 +315,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-3570">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -455,6 +469,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-3570">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -581,14 +598,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/states/preload.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="697">
-          <caret line="41" column="21" lean-forward="false" selection-start-line="41" selection-start-column="21" selection-end-line="41" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/states/menu.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="595">
@@ -597,18 +606,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/assets/images/draw.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/states/gameOver.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="50" column="0" lean-forward="false" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
+        <state relative-caret-position="527">
+          <caret line="58" column="27" lean-forward="false" selection-start-line="58" selection-start-column="27" selection-end-line="58" selection-end-column="27" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/states/play.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="440" column="47" lean-forward="false" selection-start-line="440" selection-start-column="38" selection-end-line="440" selection-end-column="47" />
+        <state relative-caret-position="498">
+          <caret line="477" column="42" lean-forward="false" selection-start-line="477" selection-start-column="42" selection-end-line="477" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/states/preload.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="430">
+          <caret line="82" column="1" lean-forward="false" selection-start-line="82" selection-start-column="1" selection-end-line="82" selection-end-column="1" />
           <folding />
         </state>
       </provider>

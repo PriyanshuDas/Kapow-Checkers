@@ -27,8 +27,11 @@ gameOver.prototype = {
 		if(this.winner===1) {
             this.game.add.image(200, 170, "p1-win");
         }
-        else {
+        else if(this.winner===2) {
             this.game.add.image(200, 170, "p2-win");
+        }
+        else {
+            this.game.add.image(200, 170, "draw");
         }
         var home = this.game.add.image(300, 1600, "home");
 		home.inputEnabled = true;

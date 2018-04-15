@@ -38,6 +38,7 @@ preload.prototype = {
         this.game.load.image("player-2-kills-active", "assets/images/player-2-kills-active.png");
         this.game.load.image("p1-win", "assets/images/p1-win.png");
         this.game.load.image("p2-win", "assets/images/p2-win.png");
+        this.game.load.image("draw", "assets/images/draw.png");
         this.game.load.image("home", "assets/images/home.png");
         this.game.load.image("turn", "assets/images/turn.png");
         this.game.load.image("back", "assets/images/back.png");

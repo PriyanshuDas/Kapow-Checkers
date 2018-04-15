@@ -22,6 +22,7 @@ play.prototype = {
 	    this.boardOffsetLeft = 10;
 	    this.tileOffsetTop = 540;
 	    this.tileOffsetLeft = 60;
+	    this.moveCounter = 0;
 		this.redrawBoard = false;
 	    this.init();
 		this.player = 2;
@@ -434,7 +435,14 @@ play.prototype = {
             }
         }
         if(this.checkGameOver()) {
-	        if(this.player === 1) {
+	        if(this.moveCounter >= 40) {
+                this.game.sound.stopAll();
+                kapow.endSoloGame(function() {
+                    console.log('Game Over! Draw!');
+                    this.state.start("GameOver", true, false, this.board, -1);
+                }.bind(this));
+            }
+	        else if(this.player === 1) {
 	            this.game.sound.stopAll();
 	            kapow.endSoloGame(function() {
 	                console.log('Game Over! P2 Win!');
@@ -454,7 +462,7 @@ play.prototype = {
     },
 
     checkGameOver: function() {
-	    if(this.player1KillCounter === 12 || this.player2KillCounter === 12) {
+	    if(this.player1KillCounter === 12 || this.player2KillCounter === 12 || this.moveCounter>=40) {
 	        return true;
         }
         var ret = true;
@@ -548,6 +556,7 @@ play.prototype = {
 
         else if(this.boardState === "selected") {
             if(this.board[x][y]===-1) {
+                this.moveCounter++;
                 var piece;
                 for(var i=0; i<8; i++) {
                     for(var j=0; j<8; j++) {
@@ -595,6 +604,7 @@ play.prototype = {
                 this.changePlayer();
             }
             else if(this.board[x][y]===-2) {
+                this.moveCounter = 0;
                 var sx,sy;
                 var piece;
                 for(var i=0; i<8; i++) {
