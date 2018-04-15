@@ -489,14 +489,16 @@ play.prototype = {
 
 	onPieceSelected: function(e) {
 		//console.log(e);
-		var x, y;
-		var left = e.position.x;
-		var top = e.position.y;
-		y = (left-this.tileOffsetLeft)/120;
-		x = (top-this.tileOffsetTop)/120;
-		console.log(x, y);
-		this.handleInput(x, y);
-	},
+        if(this.player !== this.AI) {
+            var x, y;
+            var left = e.position.x;
+            var top = e.position.y;
+            y = (left - this.tileOffsetLeft) / 120;
+            x = (top - this.tileOffsetTop) / 120;
+            console.log(x, y);
+            this.handleInput(x, y);
+        }
+    },
 
     handleInput: function(x, y) {
         if(this.boardState === "none") {

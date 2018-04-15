@@ -16,17 +16,21 @@ menu.prototype = {
 	},
 
 	onPassAndPlay: function() {
-		console.log("start game!");
-		this.game.sound.stopAll();
-        this.state.states["Play"].AI = 0;
-		this.state.start("Play", true);
+		kapow.startSoloGame(function(room) {
+            console.log("start game!");
+            this.game.sound.stopAll();
+            this.state.states["Play"].AI = 0;
+            this.state.start("Play", true);
+		}.bind(this));
 	},
 
 	onPractice: function() {
-        console.log("start game!");
-        this.game.sound.stopAll();
-        this.state.states["Play"].AI = 2;
-        this.state.start("Play", true);
+		kapow.startSoloGame(function(room) {
+            console.log("start game!");
+            this.game.sound.stopAll();
+            this.state.states["Play"].AI = 2;
+            this.state.start("Play", true);
+		}.bind(this));
 	},
 
     destroy: function() {
