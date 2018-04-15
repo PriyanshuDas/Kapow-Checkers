@@ -436,11 +436,17 @@ play.prototype = {
         if(this.checkGameOver()) {
 	        if(this.player === 1) {
 	            this.game.sound.stopAll();
-                this.state.start("GameOver", true, false, this.board, 2);
+	            kapow.endSoloGame(function() {
+	                console.log('Game Over! P2 Win!');
+                    this.state.start("GameOver", true, false, this.board, 2);
+	            }.bind(this));
             }
             else {
                 this.game.sound.stopAll();
-	            this.state.start("GameOver", true, false, this.board, 1);
+                kapow.endSoloGame(function() {
+                    console.log('Game Over! P1 Win!');
+                    this.state.start("GameOver", true, false, this.board, 1);
+                }.bind(this)) ;
             }
         }
         else if (this.player === this.AI)
