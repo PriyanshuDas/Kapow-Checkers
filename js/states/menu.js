@@ -24,7 +24,7 @@ menu.prototype = {
 
 	onPractice: function() {
         console.log("start game!");
-        this.sound.mute = true;
+        this.game.sound.stopAll();
         this.state.states["Play"].AI = 2;
         this.state.start("Play", true);
 	},
