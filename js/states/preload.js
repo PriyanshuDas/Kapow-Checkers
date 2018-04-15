@@ -14,12 +14,14 @@ preload.prototype = {
         this.game.load.image('cell', 'assets/images/tile-black.png');
         this.game.load.image('board-background', 'assets/images/board-background.png');
         this.game.load.image("background", "assets/images/background.png");
+        this.game.load.audio("game-audio", "assets/audio/game-audio.mp3");
         this.game.load.image("upper-background", "assets/images/upper-background.png");
         this.game.load.image("playButton", "assets/images/vs-friend.png");
         this.game.load.image("pass-and-play", "assets/images/pass-and-play.png");
         this.game.load.image("practice", "assets/images/practice.png");
         this.game.load.image("checker-dark", "assets/images/checker-dark.png");
         this.game.load.image("checker-dark-selected", "assets/images/checker-dark-selected.png");
+        this.game.load.audio("gameover-sound", "assets/audio/gameover.mp3");
         this.game.load.image("checker-dark-king", "assets/images/checker-dark-king.png");
         this.game.load.image("checker-dark-king-selected", "assets/images/checker-dark-king-selected.png");
         this.game.load.image("checker-dark-place", "assets/images/checker-dark-place.png");
@@ -28,6 +30,7 @@ preload.prototype = {
         this.game.load.image("checker-light-king", "assets/images/checker-light-king.png");
         this.game.load.image("checker-light-king-selected", "assets/images/checker-light-king-selected.png");
         this.game.load.image("checker-light-place", "assets/images/checker-light-place.png");
+        this.game.load.audio("move-sound", "assets/audio/tap.mp3");
         this.game.load.image("lavaflow", "assets/images/lavaflow.png");
         this.game.load.image("player-1-kills", "assets/images/player-1-kills.png");
         this.game.load.image("player-1-kills-active", "assets/images/player-1-kills-active.png");
@@ -40,9 +43,6 @@ preload.prototype = {
         this.game.load.image("back", "assets/images/back.png");
         this.game.load.image("options", "assets/images/options.png");
         this.game.load.image("rules", "assets/images/rules.png");
-        this.game.load.audio("game-audio", "assets/audio/game-audio.mp3");
-        this.game.load.audio("move-sound", "assets/audio/tap.mp3");
-        this.game.load.audio("gameover-sound", "assets/audio/gameover.mp3");
 	},
 
     _createLoader: function() {
